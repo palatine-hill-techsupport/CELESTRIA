@@ -63,10 +63,34 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.key === 'Escape') closeVideo();
   });
 
-  // Other buttons (stubs for now)
-  if (btnNav) btnNav.addEventListener('click', () => clickPulse(btnNav));
-  if (btnSweep) btnSweep.addEventListener('click', () => clickPulse(btnSweep));
-  if (btnHiscores) btnHiscores.addEventListener('click', () => clickPulse(btnHiscores));
-  if (btnUserLogin) btnUserLogin.addEventListener('click', () => clickPulse(btnUserLogin));
-  if (btnFacilitatorLogin) btnFacilitatorLogin.addEventListener('click', () => clickPulse(btnFacilitatorLogin));
+  // Other buttons
+  if (btnNav) {
+    btnNav.addEventListener('click', () => {
+      clickPulse(btnNav);
+      setTimeout(() => { window.location.href = 'navtrax.html'; }, 150);
+    });
+  }
+
+  if (btnSweep) {
+    btnSweep.addEventListener('click', () => {
+      clickPulse(btnSweep);
+      setTimeout(() => { window.location.href = 'spacejunksweep.html'; }, 150);
+    });
+  }
+
+  if (btnHiscores) {
+    btnHiscores.addEventListener('click', () => {
+      clickPulse(btnHiscores);
+      setTimeout(() => { window.location.href = 'hiscores.html'; }, 150);
+    });
+  }
+
+  if (btnUserLogin) {
+    btnUserLogin.addEventListener('click', () => clickPulse(btnUserLogin));
+  }
+
+  if (btnFacilitatorLogin) {
+    btnFacilitatorLogin.addEventListener('click', () => clickPulse(btnFacilitatorLogin));
+  }
+
 });
