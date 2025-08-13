@@ -4,6 +4,8 @@
     <meta charset="utf-8"/>
     <title>NavTrax</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://use.typekit.net/hdd1ppw.css">
+    <script src="scripts.js" defer></script>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
 </head>
 <body>
@@ -18,5 +20,52 @@
         execution-while-not-rendered
         web-share>
     </iframe>
+
+    <!-- Floating button -->
+    <button id="infoBtn">Open the prototype overview</button>
+
+    <!-- Full-screen modal -->
+    <div id="protoModal">
+    <div class="modal-panel">
+        <div class="modal-header">
+        <h2 class="modal-title">Prototype Overview</h2>
+        <button id="modalClose" aria-label="Close">×</button>
+        </div>
+        <div class="modal-body">
+        <!-- Left column: text -->
+        <div class="desc">
+            <h3>What this prototype shows</h3>
+            <p>
+            Replace this paragraph with a short overview of the specific game (NavTrax or Space Junk Sweep).
+            </p>
+            <ul>
+            <li>Key point one</li>
+            <li>Key point two</li>
+            <li>Key point three</li>
+            </ul>
+            <div class="chips">
+            <span class="chip">Example tag</span>
+            <span class="chip">Another tag</span>
+            </div>
+        </div>
+
+        <!-- Right column: media scroller -->
+        <div class="media-wrap">
+            <div class="media-track">
+            <div class="media-item">
+                <img src="assets/example1.jpg" alt="Example image">
+            </div>
+            <div class="media-item">
+                <img src="assets/example2.jpg" alt="Example image">
+            </div>
+            <div class="media-item">
+                <video src="assets/example-video.mp4" controls playsinline></video>
+            </div>
+            </div>
+            <div class="media-caption">Swipe or scroll to explore visuals and clips.</div>
+        </div>
+        </div>
+    </div>
+    </div>
 </body>
 </html>

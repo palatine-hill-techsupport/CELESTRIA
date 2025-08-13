@@ -94,3 +94,36 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 });
+
+// Prototype modal toggle
+document.addEventListener("DOMContentLoaded", () => {
+  const infoBtn = document.getElementById("infoBtn");
+  const protoModal = document.getElementById("protoModal");
+  const modalClose = document.getElementById("modalClose");
+
+  if (!infoBtn || !protoModal || !modalClose) return;
+
+  const openModal = () => {
+    protoModal.style.display = "block";
+    document.documentElement.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
+  };
+
+  const closeModal = () => {
+    protoModal.style.display = "none";
+    document.documentElement.style.overflow = "";
+    document.body.style.overflow = "";
+    protoModal.querySelectorAll("video").forEach(v => v.pause());
+  };
+
+  infoBtn.addEventListener("click", openModal);
+  modalClose.addEventListener("click", closeModal);
+
+  protoModal.addEventListener("click", (e) => {
+    if (e.target === protoModal) closeModal();
+  });
+
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeModal();
+  });
+});

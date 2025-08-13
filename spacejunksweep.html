@@ -4,6 +4,8 @@
     <meta charset="utf-8"/>
     <title>Space Junk Sweep</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://use.typekit.net/hdd1ppw.css">
+    <script src="scripts.js" defer></script>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
 </head>
 <body>
@@ -18,5 +20,74 @@
         execution-while-not-rendered
         web-share>
     </iframe>
+
+    <!-- Floating button -->
+    <button id="infoBtn">Open the prototype overview</button>
+
+    <!-- Full-screen modal -->
+    <div id="protoModal">
+    <div class="modal-panel">
+        <div class="modal-header">
+        <h2 class="modal-title">🛰️ Space Junk Sweep: Prototype Overview</h2>
+        <button id="modalClose" aria-label="Close">×</button>
+        </div>
+
+        <div class="modal-body">
+        <!-- Left column: text -->
+        <div class="desc">
+            <h3>Overview</h3>
+            <p>
+            In the not-so-distant future, Earth’s orbit has become a dangerous scrapyard of dead satellites, rocket fragments, and decades of space junk. <b>Space Junk Sweep</b> puts you in the pilot seat of a state-of-the-art debris-collecting drone equipped with an experimental magnet cannon. Your mission is to protect operational satellites and critical infrastructure by cleaning up debris before it collides and triggers catastrophic chain reactions. The simulation uses live-inspired 2025 orbital debris data, matching the real quantity of junk in orbit and simulating new debris generation at a scientifically accurate pace. Every piece you collect changes how your drone moves, so you must think like an orbital mechanic; balance speed, mass, and momentum while predicting how gravity will pull you around the planet. It’s a race against other players, physics, and the relentless ticking clock of orbital decay.
+            </p>
+
+            <h3>Gameplay</h3>
+            <ul>
+            <li>Plays like <i>snake.io</i> with all players sharing the same orbital space.</li>
+            <li>Collect debris and deposit it at one of three orbital docks to score.</li>
+            <li>Collected junk attaches to your drone’s front, increasing mass and drag.</li>
+            <li>Heavier mass slows turning but boosts momentum; use natural orbits and gravity slingshots for efficient travel.</li>
+            <li>Collisions are resolved by combining mass and speed; smaller players can down heavyweights with well-timed high-velocity impacts.</li>
+            <li>Temporary “grace windows” let smaller players combine forces before engaging larger rivals, encouraging team-based orbital tactics.</li>
+            </ul>
+
+            <h3>STEM Concepts Explored</h3>
+            <ul>
+            <li>Orbital mechanics and gravitational assists</li>
+            <li>Momentum, inertia, and collision dynamics</li>
+            <li>Cooperative strategies in a physics-based environment</li>
+            </ul>
+
+            <div class="chips">
+            <span class="chip">Orbital Mechanics</span>
+            <span class="chip">Gravitational Assist</span>
+            <span class="chip">Momentum</span>
+            <span class="chip">Inertia</span>
+            <span class="chip">Collision Dynamics</span>
+            <span class="chip">Co-op Strategy</span>
+            </div>
+        </div>
+
+        <!-- Right column: media scroller -->
+        <div class="media-wrap">
+            <div class="media-track">
+                <div class="media-item">
+                    <img src="images/sjs/sjs-demo-1.jpg" alt="XXX">
+                </div>
+                <div class="media-item">
+                    <img src="images/sjs/sjs-demo-2.jpg" alt="XXX">
+                </div>
+                <div class="media-item">
+                    <img src="images/sjs/sjs-demo-3.png" alt="XXX">
+                </div>
+                <div class="media-item">
+                    <img src="images/sjs/sjs-demo-4.png" alt="XXX">
+                </div>
+                <div class="media-item">
+                    <img src="images/sjs/sjs-demo-5.png" alt="XXX">
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
 </body>
 </html>

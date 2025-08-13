@@ -1,53 +1,424 @@
+/* ==========================================================================
+   Foundation: fonts, palette, and root tokens
+   ========================================================================== */
+
+/* Typography stacks (Adobe Fonts kit is linked in HTML) */
+:root {
+  /* Body text */
+  --font-body: "roboto", "Roboto", "Helvetica Neue", Arial,
+               system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* Headings / display */
+  --font-display: "Carbon", "T26 Carbon", "Carbon T26",
+                  "OCR A Std", "Consolas", "SFMono-Regular", "Menlo", monospace;
+
+  /* Brand palette */
+  --nasa-blue:     #0B3D91;  /* primary backgrounds */
+  --nasa-red:      #FD3D21;  /* alerts */
+  --nasa-white:    #FFFFFF;  /* primary text/icons */
+
+  --starlight:     #BFC7D5;  /* secondary text / inactive */
+  --cosmic-teal:   #00A9A5;  /* positive / hover / focus */
+  --solar-gold:    #FFB547;  /* achievements / highlights */
+  --nebula-purple: #6B4C9A;  /* secondary action */
+  --plasma-pink:   #FF3CAC;  /* boosts / specials */
+
+  /* Layout surfaces */
+  --bg-body:       #000000;           /* page canvas behind iframe */
+  --overlay-80:    rgba(0,0,0,.80);   /* global dimmer behind modal */
+  --panel:         rgba(11,16,30,.95);/* modal panel surface */
+
+  /* Framing bars over the embed */
+  --frame-thickness: 75px;
+  --frame-color:     #070c10;
+
+  /* Effects */
+  --ring:           color-mix(in srgb, var(--cosmic-teal) 65%, transparent);
+  --chip-fg:        color-mix(in srgb, var(--cosmic-teal) 85%, white);
+  --chip-bg:        color-mix(in srgb, var(--cosmic-teal) 12%, transparent);
+  --chip-border:    color-mix(in srgb, var(--cosmic-teal) 30%, transparent);
+  --pulse-color:    var(--cosmic-teal);
+
+  /* Type rhythm */
+  --track-tight:   -0.005em;
+  --track-wide:     0.06em;
+}
+
+/* Global text defaults */
 html, body {
-  margin:0;
-  padding:0;
-  height:100%;
-  background:#000;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: var(--bg-body);
+  color: var(--nasa-white);
+  font-family: var(--font-body);
+  line-height: 1.45;
+  letter-spacing: var(--track-tight);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
+/* Headings and prominent labels use the display face */
+h1, h2, h3, h4, h5, h6,
+.modal-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: var(--track-wide);
+}
+
+/* ==========================================================================
+   Layout: full-bleed embed and frame
+   ========================================================================== */
+
+/* Full-viewport Sketchfab iframe behind UI */
 iframe {
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  border:0;
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
 }
 
-/* Menu button styling */
-#menuBtn {
-  position:fixed;
-  top:15px;
-  left:15px;
-  background:rgba(11, 16, 30, 0.8);
-  color:#fff;
-  border:none;
-  padding:10px 16px;
-  border-radius:6px;
-  font-size:14px;
-  font-weight:600;
-  cursor:pointer;
-  z-index:9999;
-  backdrop-filter: blur(4px);
-}
-    
-#menuBtn:hover {
-  background:rgba(0, 169, 165, 0.9);
-}
-
-/* Black overlay border */
+/* Fixed top/bottom bars to frame the scene without blocking clicks */
 #overlayBorder {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  border-top: 75px solid #070c10;    /* Top border */
-  border-bottom: 75px solid #070c10; /* Bottom border */
+  inset: 0;
+  border-top: var(--frame-thickness) solid var(--frame-color);
+  border-bottom: var(--frame-thickness) solid var(--frame-color);
   border-left: 0;
   border-right: 0;
   box-sizing: border-box;
   z-index: 5000;
-  pointer-events: none;
+  pointer-events: none; /* allow interaction with content beneath */
 }
 
+/* ==========================================================================
+   Component: primary navigation button (Menu)
+   ========================================================================== */
+
+#menuBtn {
+  /* Fixed control anchored to top-left, above frame and embed */
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  z-index: 9999;
+  cursor: pointer;
+
+  /* Typographic treatment aligns with display face */
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  font-size: 14px;
+
+  /* Surface and legibility */
+  background: rgba(11,61,145,.92); /* var(--nasa-blue) with alpha */
+  color: var(--nasa-white);
+  border: 0;
+  border-radius: 6px;
+  padding: 10px 16px;
+  backdrop-filter: blur(4px);
+  transition: background 120ms ease, transform 120ms ease;
+}
+#menuBtn:hover { background: rgba(0,169,165,.95); transform: translateY(-1px); }
+#menuBtn:active { transform: translateY(0); }
+#menuBtn:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--ring); }
+
+/* ==========================================================================
+   Component: floating info button (opens prototype modal)
+   ========================================================================== */
+
+/* Floating info control anchored on the right, vertically centered */
+#infoBtn{
+  /* placement */
+  position: fixed;
+  right: 5%;                 /* use a percentage offset from the right edge */
+  top: 80%;                  /* vertical placement relative to viewport */
+  transform: translateY(-50%);
+  z-index: 11000;
+  isolation: isolate;        /* creates stacking context so halo can sit behind */
+  cursor: pointer;
+
+  /* circular geometry and centring */
+  width: 12rem;
+  height: 12rem;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+
+  /* type system */
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: 0;
+
+  /* surface and baseline shadow */
+  background: rgba(11,61,145,.92);
+  color: var(--nasa-white);
+  border: 0;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 6px 20px rgba(0,0,0,.4);
+
+  /* animation + interaction */
+  animation: infoPulse 2.2s ease-in-out infinite;
+  transition: background 120ms ease, transform 120ms ease;
+}
+#infoBtn:hover  { background: rgba(0,169,165,.95); transform: translateY(calc(-50% - 1px)); }
+#infoBtn:active { transform: translateY(-50%); }
+#infoBtn:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--ring); }
+
+/* Expanding halo behind the control; timed with the pulse */
+#infoBtn::before{
+  content: "";
+  position: absolute;
+  inset: -10px;              /* slightly larger than the button */
+  border-radius: 50%;
+  z-index: -1;               /* sits behind within the button’s stacking context */
+  box-shadow: 0 0 0 0 var(--pulse-color);
+  opacity: .55;
+  animation: infoRing 2.2s ease-out infinite;
+}
+
+/* ==========================================================================
+   Component: modal dialog (overlay + centered panel)
+   ========================================================================== */
+
+/* Overlay: covers viewport and blocks interaction with the page */
+#protoModal {
+  position: fixed;
+  inset: 0;
+  z-index: 12000;
+  display: none;
+  background: var(--overlay-80);
+}
+
+/* Panel: centred container with header + scrollable body rows */
+#protoModal .modal-panel {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(1100px, 92vw);
+  max-height: min(100vh, 1000px);
+  display: grid;
+  grid-template-rows: auto 1fr;
+  overflow: hidden;
+  background: var(--panel);
+  color: var(--nasa-white);
+  border: 1px solid color-mix(in srgb, var(--starlight) 25%, transparent);
+  border-radius: 16px;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.55);
+}
+
+/* Header: title at left, close control at right */
+#protoModal .modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  background: rgba(11,16,30,.90);
+  border-bottom: 1px solid color-mix(in srgb, var(--starlight) 18%, transparent);
+}
+#protoModal .modal-title {
+  margin: 0;
+  font-size: 18px;
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: var(--track-wide);
+}
+
+/* Header: close control */
+#modalClose {
+  background: transparent;
+  color: var(--nasa-white);
+  border: 0;
+  font-size: 24px;
+  line-height: 1;
+  padding: 2px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 120ms ease;
+}
+#modalClose:hover { background: rgba(255,255,255,0.08); }
+#modalClose:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--ring); }
+
+/* Body: two columns (copy | media). Media receives more space */
+#protoModal .modal-body {
+  display: grid;
+  grid-template-columns: 1.25fr 2.0fr;
+  gap: 16px;
+  padding: 16px;
+  min-height: 0;
+}
+
+/* Left column: scroll container for copy */
+#protoModal .desc {
+  overflow: auto;
+  padding-right: 6px;
+}
+#protoModal .desc h3 {
+  margin: 0 0 8px 0;
+  font-size: 16px;
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: var(--track-wide);
+}
+#protoModal .desc p,
+#protoModal .desc li,
+#protoModal .media-caption {
+  font-family: var(--font-body);
+  color: var(--starlight);
+  font-size: 14px;
+  line-height: 1.5;
+}
+#protoModal .desc ul { margin: 8px 0 0 18px; }
+
+/* Right column: media area fills column height and centres contents */
+#protoModal .media-wrap {
+  min-height: 0;
+  height: 100%;
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  gap: 8px;
+}
+
+/* Carousel track: horizontal scrolling within the column box */
+#protoModal .media-track {
+  display: flex;
+  width: 100%;
+  max-height: 100%;
+  align-items: center;
+  gap: 16px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Media cards: sized by column width, aspect maintains height */
+#protoModal .media-item {
+  flex: 0 0 100%;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  background: #0b101e;
+  border: 1px solid color-mix(in srgb, var(--starlight) 18%, transparent);
+  border-radius: 12px;
+  overflow: hidden;
+  scroll-snap-align: center;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.45);
+}
+
+/* Media fills its card */
+#protoModal .media-item img,
+#protoModal .media-item video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Optional tags: inline list at the end of the copy column */
+#protoModal .chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 24px;
+}
+#protoModal .chip {
+  font-size: 12px;
+  color: var(--chip-fg);
+  background: var(--chip-bg);
+  border: 1px solid var(--chip-border);
+  padding: 4px 8px;
+  border-radius: 999px;
+}
+
+/* ==========================================================================
+   Responsiveness: stack columns on narrow viewports
+   ========================================================================== */
+
+@media (max-width: 900px) {
+  #protoModal .modal-body {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+  }
+  #protoModal .media-item {
+    flex-basis: 100%;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 600px){
+  #infoBtn{
+    top: auto;
+    bottom: 5%;
+    transform: none;
+    font-size: 20px;
+  }
+  #infoBtn:hover  { transform: translateY(-1px); }
+  #infoBtn:active { transform: translateY(0); }
+}
+
+/* ==========================================================================
+   Platform polish: scrollbar styling for media track
+   ========================================================================== */
+
+#protoModal .media-track::-webkit-scrollbar { height: 8px; }
+#protoModal .media-track::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--starlight) 35%, transparent);
+  border-radius: 99px;
+}
+#protoModal .media-track::-webkit-scrollbar-track {
+  background: color-mix(in srgb, var(--starlight) 12%, transparent);
+  border-radius: 99px;
+}
+
+/* ==========================================================================
+   Optional utility classes for future buttons/highlights
+   ========================================================================== */
+
+.btn-danger {
+  background: var(--nasa-red);
+  color: var(--nasa-white);
+}
+.btn-secondary {
+  background: var(--nebula-purple);
+  color: var(--nasa-white);
+}
+.highlight-gold {
+  color: var(--solar-gold);
+}
+
+/* ==========================================================================
+   Keyframes for animated effects
+   ========================================================================== */
+
+/* Ambient glow cycle on the button itself */
+@keyframes infoPulse{
+  0%, 100% {
+    box-shadow:
+      0 0 0 0 rgba(0,0,0,0),
+      0 6px 20px rgba(0,0,0,0.40);
+  }
+  50% {
+    box-shadow:
+      0 0 30px 10px color-mix(in srgb, var(--pulse-color) 55%, transparent),
+      0 6px 24px rgba(0,0,0,0.45);
+  }
+}
+
+/* Expanding, fading ring behind the button */
+@keyframes infoRing{
+  0%   { transform: scale(1);   box-shadow: 0 0 0 0  color-mix(in srgb, var(--pulse-color) 40%, transparent); opacity: .55; }
+  70%  { transform: scale(1.8); box-shadow: 0 0 0 16px color-mix(in srgb, var(--pulse-color) 0%,  transparent); opacity: 0; }
+  100% { transform: scale(1.8); box-shadow: 0 0 0 16px transparent; opacity: 0; }
+}
+
+/* Motion preference */
+@media (prefers-reduced-motion: reduce){
+  #infoBtn{ animation: none; }
+  #infoBtn::before{ animation: none; }
+}
