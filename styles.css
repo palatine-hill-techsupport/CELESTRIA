@@ -209,6 +209,13 @@ iframe {
   box-shadow: 0 30px 60px rgba(0,0,0,0.55);
 }
 
+/* Prefer dynamic viewport height on browsers that support it */
+@supports (height: 100dvh) {
+  #protoModal .modal-panel {
+    max-height: min(90dvh, 900px);
+  }
+}
+
 /* Header: title at left, close control at right */
 #protoModal .modal-header {
   display: flex;
@@ -466,7 +473,25 @@ iframe {
   /* keep the subtle nudge on tap/hover */
   #infoBtn:hover  { transform: translateY(-1px); }
   #infoBtn:active { transform: translateY(0); }
+
+  /* Let the panel use the full visible height between top/bottom insets */
+  #protoModal .modal-panel{
+    /* anchor instead of true center */
+    top: calc(env(safe-area-inset-top, 0px) + 12px);
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 12px);
+    left: 50%;
+    transform: translate(-50%, 0);
+    height: auto;
+    max-height: none;
+    width: min(96vw, 720px);
+  }
+
+  #protoModal .modal-body{
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+  }
 }
+
 
 /* ==========================================================================
    Platform polish: scrollbar styling for media track
