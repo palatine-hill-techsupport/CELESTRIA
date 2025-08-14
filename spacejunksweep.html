@@ -3,15 +3,33 @@
 <head>
     <meta charset="utf-8"/>
     <title>Space Junk Sweep</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://use.typekit.net/hdd1ppw.css">
     <script src="scripts.js" defer></script>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
 </head>
 <body>
-    <div id="overlayBorder"></div>
-    <button id="menuBtn" onclick="window.location.href='index.html'">Menu</button>
 
+    <!-- Background Audio -->
+    <audio id="bgm" src="soundscape.mp3" preload="auto" loop muted></audio>
+
+    <!-- Scoreboard -->
+    <div id="scoreboard">
+        <div id="score-label">Score:</div>
+        <div id="score-value">0kg</div>
+    </div>
+
+    <!-- Speedometer-->
+    <div id="speedometer">
+        <div id="speed-label">Speed:</div>
+        <div id="speed-value">0km/h</div>
+    </div>
+
+    <div id="overlayBorder"></div>
+    <button id="menuBtn">MENU</button>
+
+    <!-- Model iframe -->
     <iframe 
         src="https://sketchfab.com/models/bf88e38ab2e64d53a927a003d6e60669/embed?autostart=1&preload=1&ui_theme=dark&ui_infos=0&ui_controls=0&ui_watermark=0&ui_watermark_link=0"
         allow="autoplay; fullscreen; xr-spatial-tracking"
@@ -28,13 +46,13 @@
     <div id="protoModal">
         <!-- Lightbox inside the modal overlay -->
         <div id="lightbox" aria-hidden="true">
-        <button id="lightboxClose" aria-label="Close image">×</button>
-        <img id="lightboxImg" alt="">
+            <button id="lightboxClose" aria-label="Close image">×</button>
+            <img id="lightboxImg" alt="">
         </div>
     <div class="modal-panel">
         <div class="modal-header">
-        <h2 class="modal-title">🛰️ Space Junk Sweep: Prototype Overview</h2>
-        <button id="modalClose" aria-label="Close">×</button>
+            <h2 class="modal-title">🛰️ Space Junk Sweep: Prototype Overview</h2>
+            <button id="modalClose" aria-label="Close">×</button>
         </div>
 
         <div class="modal-body">
@@ -76,22 +94,59 @@
         <div class="media-grid">
         <!-- Use <button> for keyboard access; data-src feeds the lightbox -->
         <button class="thumb" type="button" data-src="images/sjs/sjs-demo-1.jpg" aria-label="Open image 1">
-            <img src="images/sjs/sjs-demo-1.jpg" alt="Debris cluster intercepted by drone">
+            <img src="images/sjs/sjs-demo-1.jpg" alt="Space junk sweep UI sketch">
         </button>
         <button class="thumb" type="button" data-src="images/sjs/sjs-demo-2.jpg" aria-label="Open image 2">
-            <img src="images/sjs/sjs-demo-2.jpg" alt="Orbital dock collection point">
+            <img src="images/sjs/sjs-demo-2.jpg" alt="Style guide and moodbaord">
         </button>
         <button class="thumb" type="button" data-src="images/sjs/sjs-demo-3.png" aria-label="Open image 3">
-            <img src="images/sjs/sjs-demo-3.png" alt="Asteroid field concept art">
+            <img src="images/sjs/sjs-demo-3.png" alt="Background pixel art 1">
         </button>
         <button class="thumb" type="button" data-src="images/sjs/sjs-demo-4.png" aria-label="Open image 4">
-            <img src="images/sjs/sjs-demo-4.png" alt="Ship variants sheet">
+            <img src="images/sjs/sjs-demo-4.png" alt="Background pixel art 2">
         </button>
         <button class="thumb" type="button" data-src="images/sjs/sjs-demo-5.png" aria-label="Open image 5">
-            <img src="images/sjs/sjs-demo-5.png" alt="UI wireframe">
+            <img src="images/sjs/sjs-demo-5.png" alt="Asteroid pixel art">
         </button>
         </div>
     </div>
     </div>
+    </div>
+
+    <!-- Pause / Settings Menu -->
+    <div id="menuModal" aria-hidden="true">
+    <div class="menu-panel">
+        <div class="menu-header">
+        <h2 class="menu-title">Menu</h2>
+        <button id="menuClose" aria-label="Close">×</button>
+        </div>
+
+        <div class="menu-body">
+        <!-- primary actions -->
+        <button id="goHome" class="menu-btn menu-btn-primary" type="button">HOME</button>
+        <button id="openSettings" class="menu-btn" type="button">SETTINGS</button>
+
+        <!-- controls -->
+        <div class="menu-section">
+            <div class="menu-row">
+            <label for="fovRange" class="menu-label">FOV</label>
+            <input id="fovRange" class="fov-range" type="range" min="60" max="120" value="90" step="1" />
+            <output id="fovValue" class="menu-value" for="fovRange">90°</output>
+            </div>
+
+            <div class="menu-row">
+            <span class="menu-label">Colour Blind Mode</span>
+            <button id="toggleCb" class="menu-toggle" type="button" aria-pressed="false">OFF</button>
+            </div>
+
+            <div class="menu-row">
+            <span class="menu-label">Captions</span>
+            <button id="toggleCaptions" class="menu-toggle" type="button" aria-pressed="false">OFF</button>
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+    
 </body>
 </html>

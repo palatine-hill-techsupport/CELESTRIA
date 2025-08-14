@@ -1,8 +1,7 @@
 /* ==========================================================================
-   Foundation: fonts, palette, and root tokens
+   Fonts, palette, and root tokens
    ========================================================================== */
 
-/* Typography stacks (Adobe Fonts kit is linked in HTML) */
 :root {
   /* Body text */
   --font-body: "roboto", "Roboto", "Helvetica Neue", Arial,
@@ -28,7 +27,7 @@
   --overlay-80:    rgba(0,0,0,.80);   /* global dimmer behind modal */
   --panel:         rgba(11,16,30,.95);/* modal panel surface */
 
-  /* Framing bars over the embed */
+  /* Framing bars */
   --frame-thickness: 75px;
   --frame-color:     #070c10;
 
@@ -39,7 +38,6 @@
   --chip-border:    color-mix(in srgb, var(--cosmic-teal) 30%, transparent);
   --pulse-color:    var(--cosmic-teal);
 
-  /* Type rhythm */
   --track-tight:   -0.005em;
   --track-wide:     0.06em;
 }
@@ -58,7 +56,7 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Headings and prominent labels use the display face */
+/* Headings */
 h1, h2, h3, h4, h5, h6,
 .modal-title {
   font-family: var(--font-display);
@@ -67,10 +65,9 @@ h1, h2, h3, h4, h5, h6,
 }
 
 /* ==========================================================================
-   Layout: full-bleed embed and frame
+   Layout
    ========================================================================== */
 
-/* Full-viewport Sketchfab iframe behind UI */
 iframe {
   position: fixed;
   inset: 0;
@@ -79,7 +76,6 @@ iframe {
   border: 0;
 }
 
-/* Fixed top/bottom bars to frame the scene without blocking clicks */
 #overlayBorder {
   position: fixed;
   inset: 0;
@@ -89,33 +85,30 @@ iframe {
   border-right: 0;
   box-sizing: border-box;
   z-index: 5000;
-  pointer-events: none; /* allow interaction with content beneath */
+  pointer-events: none;
 }
 
 /* ==========================================================================
-   Component: primary navigation button
+   Primary navigation button
    ========================================================================== */
 
 #menuBtn {
-  /* Fixed control anchored to top-left, above frame and embed */
   position: fixed;
-  top: 15px;
-  left: 15px;
+  top: 3%;
+  left: 3%;
   z-index: 9999;
   cursor: pointer;
 
-  /* Typographic treatment aligns with display face */
   font-family: var(--font-display);
   font-weight: 400;
   letter-spacing: 0.05em;
-  font-size: 14px;
+  font-size: 20px;
 
-  /* Surface and legibility */
-  background: rgba(11,61,145,.92); /* var(--nasa-blue) with alpha */
+  background: rgba(11,61,145,.92);
   color: var(--nasa-white);
   border: 0;
   border-radius: 6px;
-  padding: 10px 16px;
+  padding: 20px 32px;
   backdrop-filter: blur(4px);
   transition: background 120ms ease, transform 120ms ease;
 }
@@ -124,18 +117,17 @@ iframe {
 #menuBtn:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--ring); }
 
 /* ==========================================================================
-   Component: floating info button
+   Info button
    ========================================================================== */
 
-/* Floating info control anchored on the right, vertically centered */
 #infoBtn{
   /* placement */
   position: fixed;
-  right: 5%;                 /* use a percentage offset from the right edge */
-  top: 80%;                  /* vertical placement relative to viewport */
+  right: 5%;
+  top: 80%;
   transform: translateY(-50%);
   z-index: 11000;
-  isolation: isolate;        /* creates stacking context so halo can sit behind */
+  isolation: isolate;
   cursor: pointer;
 
   /* circular geometry and centring */
@@ -166,23 +158,23 @@ iframe {
 #infoBtn:active { transform: translateY(-50%); }
 #infoBtn:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--ring); }
 
-/* Expanding halo behind the control; timed with the pulse */
+/* Expanding halo behind the control */
 #infoBtn::before{
   content: "";
   position: absolute;
-  inset: -10px;              /* slightly larger than the button */
+  inset: -10px;
   border-radius: 50%;
-  z-index: -1;               /* sits behind within the button’s stacking context */
+  z-index: -1;
   box-shadow: 0 0 0 0 var(--pulse-color);
   opacity: .55;
   animation: infoRing 2.2s ease-out infinite;
 }
 
 /* ==========================================================================
-   Component: modal dialog
+   Modal overlays for content and settings
    ========================================================================== */
 
-/* Overlay: covers viewport and blocks interaction with the page */
+/* Overlay */
 #protoModal {
   position: fixed;
   inset: 0;
@@ -191,13 +183,13 @@ iframe {
   background: var(--overlay-80);
 }
 
-/* Panel: centred container with header + scrollable body rows */
+/* Panel */
 #protoModal .modal-panel {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: min(1300px, 88vw);
+  width: min(1500px, 88vw);
   max-height: min(100vh, 1000px);
   display: grid;
   grid-template-rows: auto 1fr;
@@ -216,7 +208,7 @@ iframe {
   }
 }
 
-/* Header: title at left, close control at right */
+/* Header */
 #protoModal .modal-header {
   display: flex;
   align-items: center;
@@ -234,7 +226,6 @@ iframe {
   letter-spacing: var(--track-wide);
 }
 
-/* Header: close control */
 #modalClose {
   background: transparent;
   color: var(--nasa-white);
@@ -249,7 +240,6 @@ iframe {
 #modalClose:hover { background: rgba(255,255,255,0.08); }
 #modalClose:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--ring); }
 
-/* Body: two columns (copy | media). Media receives more space */
 #protoModal .modal-body {
   display: grid;
   grid-template-columns: 1.25fr 2.0fr;
@@ -258,7 +248,7 @@ iframe {
   min-height: 0;
 }
 
-/* Left column: scroll container for copy */
+/* Left column */
 #protoModal .desc {
   overflow: auto;
   padding-right: 6px;
@@ -280,7 +270,7 @@ iframe {
 }
 #protoModal .desc ul { margin: 8px 0 0 18px; }
 
-/* Right column: media area fills column height and centres contents */
+/* Right column */
 #protoModal .media-wrap {
   min-height: 0;
   height: 100%;
@@ -290,14 +280,12 @@ iframe {
   gap: 8px;
 }
 
-/* Right column: grid of equal thumbnails (auto-sized rows, compact columns) */
 #protoModal .media-grid{
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   grid-auto-flow: row dense;
   gap: 12px;
 
-  /* live inside the right column and scroll if it overflows */
   align-content: start;
   align-items: stretch;
   min-height: 0;
@@ -327,7 +315,6 @@ iframe {
   box-shadow: 0 0 0 3px var(--ring);
 }
 
-/* Thumbnail content fills its tile */
 #protoModal .thumb img{
   width: 100%;
   height: 100%;
@@ -347,7 +334,6 @@ iframe {
   padding: 24px;
 }
 
-/* Lightbox image sizing within viewport */
 #lightboxImg{
   max-width: 92vw;
   max-height: 92vh;
@@ -356,7 +342,6 @@ iframe {
   box-shadow: 0 30px 60px rgba(0,0,0,.6);
 }
 
-/* Lightbox close control anchored to top-right */
 #lightboxClose{
   position: absolute;
   top: 14px;
@@ -382,20 +367,6 @@ iframe {
   #protoModal .media-grid{ grid-template-columns: repeat(2, 1fr); }
 }
 
-/* Carousel track: horizontal scrolling within the column box */
-#protoModal .media-track {
-  display: flex;
-  width: 100%;
-  max-height: 100%;
-  align-items: center;
-  gap: 16px;
-  overflow-x: auto;
-  overflow-y: hidden;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-}
-
-/* Media cards: sized by column width, aspect maintains height */
 #protoModal .media-item {
   flex: 0 0 100%;
   width: 100%;
@@ -410,7 +381,6 @@ iframe {
   box-shadow: 0 10px 24px rgba(0,0,0,0.45);
 }
 
-/* Media fills its card */
 #protoModal .media-item img,
 #protoModal .media-item video {
   display: block;
@@ -419,7 +389,6 @@ iframe {
   object-fit: cover;
 }
 
-/* Optional tags: inline list at the end of the copy column */
 #protoModal .chips {
   display: flex;
   flex-wrap: wrap;
@@ -435,8 +404,615 @@ iframe {
   border-radius: 999px;
 }
 
+   /* ==========================================================================
+   Pause / Settings Menu
+   ========================================================================== */
+
+/* Overlay layer for pause menu */
+#menuModal{
+  position: fixed;
+  inset: 0;
+  z-index: 13000;
+  display: none;
+  background: var(--overlay-80);
+}
+
+#menuModal .menu-panel{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: clamp(320px, 48vw, 560px);
+  max-height: min(90vh, 700px);
+  display: grid;
+  grid-template-rows: auto 1fr;
+  overflow: hidden;
+  background: var(--panel);
+  color: var(--nasa-white);
+  border: 1px solid color-mix(in srgb, var(--starlight) 25%, transparent);
+  border-radius: 16px;
+  box-shadow: 0 30px 60px rgba(0,0,0,.55);
+}
+
+/* Header */
+#menuModal .menu-header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  background: rgba(11,16,30,.90);
+  border-bottom: 1px solid color-mix(in srgb, var(--starlight) 18%, transparent);
+}
+#menuModal .menu-title{
+  margin: 0;
+  font-size: 20px;
+  font-family: var(--font-display);
+  letter-spacing: var(--track-wide);
+}
+#menuClose{
+  background: transparent;
+  color: var(--nasa-white);
+  border: 0;
+  font-size: 24px;
+  line-height: 1;
+  padding: 2px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 120ms ease;
+}
+#menuClose:hover{ background: rgba(255,255,255,.08); }
+#menuClose:focus-visible{ outline: none; box-shadow: 0 0 0 3px var(--ring); }
+
+/* Body layout: vertical stack */
+#menuModal .menu-body{
+  padding: 16px;
+  display: grid;
+  gap: 12px;
+  overflow: auto;
+}
+
+/* Buttons */
+.menu-btn{
+  font-family: var(--font-display);
+  letter-spacing: 0.05em;
+  font-size: 24px;
+  border: 0;
+  border-radius: 10px;
+  padding: 32px 16px;
+  color: var(--nasa-white);
+  background: rgba(11,61,145,.92);
+  cursor: pointer;
+  transition: transform 120ms ease, background 120ms ease;
+}
+.menu-btn:hover{ transform: translateY(-1px); background: rgba(0,169,165,.95); } /* teal */
+.menu-btn:active{ transform: translateY(0); }
+.menu-btn:focus-visible{ outline: none; box-shadow: 0 0 0 3px var(--ring); }
+
+.menu-btn-primary{
+  background: #FD3D21;
+  font-weight: 700;
+}
+
+/* Section box for controls */
+.menu-section{
+  margin-top: 6px;
+  border: 1px solid color-mix(in srgb, var(--starlight) 18%, transparent);
+  border-radius: 12px;
+  padding: 12px;
+  display: grid;
+  gap: 10px;
+}
+
+.menu-row{
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 10px;
+}
+.menu-label{
+  font-family: var(--font-display);
+  letter-spacing: 0.05em;
+  font-size: 16px;
+}
+.menu-value{
+  font-family: var(--font-display);
+  letter-spacing: 0.05em;
+  font-size: 14px;
+  color: var(--starlight);
+}
+
+/* Toggle buttons (ON/OFF) */
+.menu-toggle{
+  min-width: 80px;
+  text-align: center;
+  font-family: var(--font-display);
+  letter-spacing: 0.05em;
+  font-size: 16px;
+  border: 1px solid color-mix(in srgb, var(--starlight) 25%, transparent);
+  border-radius: 10px;
+  padding: 8px 12px;
+  background: rgba(255,255,255,.06);
+  color: var(--nasa-white);
+  cursor: pointer;
+  transition: background 120ms ease, border-color 120ms ease, transform 120ms ease;
+}
+.menu-toggle[aria-pressed="true"]{
+  background: color-mix(in srgb, var(--cosmic-teal) 35%, transparent);
+  border-color: color-mix(in srgb, var(--cosmic-teal) 55%, transparent);
+}
+.menu-toggle:hover{ transform: translateY(-1px); }
+.menu-toggle:active{ transform: translateY(0); }
+.menu-toggle:focus-visible{ outline: none; box-shadow: 0 0 0 3px var(--ring); }
+
+.fov-range{
+  -webkit-appearance: none;
+  width: 220px;
+  height: 12px;
+  background: color-mix(in srgb, var(--starlight) 35%, transparent);
+  border-radius: 999px;
+  outline: none;
+}
+.fov-range::-webkit-slider-thumb{
+  -webkit-appearance: none;
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: var(--nasa-white);
+  border: 2px solid var(--cosmic-teal);
+  box-shadow: 0 0 0 2px rgba(0,0,0,.15);
+  cursor: pointer;
+}
+.fov-range::-moz-range-track{
+  height: 8px;
+  background: color-mix(in srgb, var(--starlight) 35%, transparent);
+  border-radius: 999px;
+}
+.fov-range::-moz-range-thumb{
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--nasa-white);
+  border: 2px solid var(--cosmic-teal);
+  box-shadow: 0 0 0 2px rgba(0,0,0,.15);
+  cursor: pointer;
+}
+
+/* Mobile: anchor panel to safe areas */
+@media (max-width: 600px){
+  #menuModal .menu-panel{
+    top: calc(env(safe-area-inset-top, 0px) + 12px);
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 12px);
+    left: 50%;
+    transform: translate(-50%, 0);
+    height: auto;
+    max-height: none;
+    width: min(96vw, 560px);
+  }
+  .menu-row{ grid-template-columns: 1fr 1fr auto; }
+}
+
 /* ==========================================================================
-   Responsiveness: stack columns on narrow viewports
+   Scoreboard overlay and speed indicator
+   ========================================================================== */
+
+/* Scoreboard styling */
+#scoreboard {
+  position: absolute;
+  top: 3%;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: 9000;
+}
+
+#score-label {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  font-weight: thin;
+  color: #FFFFFF;
+}
+
+#score-value {
+  font-family: var(--font-display);
+  font-size: 3.6rem;
+  font-weight: bold;
+  color: #FD3D21;
+}
+
+/* Speedometer styling */
+#speedometer {
+  position: absolute;
+  bottom: 3%;
+  left: 3%;
+  text-align: left;
+  z-index: 9000;
+}
+
+#speed-label {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  font-weight: thin;
+  color: #FFFFFF;
+}
+
+#speed-value {
+  font-family: var(--font-display);
+  font-size: 3.6rem;
+  font-weight: bold;
+  color: #FD3D21;
+}
+
+/* ==========================================================================
+   Meters overlay
+   ========================================================================== */
+
+#meters {
+  position: absolute;
+  bottom: 3%;
+  left: 3%;
+  z-index: 9000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 300px;
+  background-color: rgba(11, 16, 30, 0.7);
+  padding: 1%;
+  border-radius: 6px;
+}
+
+.meter {
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 1rem;
+}
+
+.meter-label {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.meter-bar {
+  width: 100%;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.meter-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #0B3D91, #FD3D21);
+  width: 50%;
+  transition: width 0.5s ease;
+}
+
+/* Half-size on mobile */
+@media (max-width: 768px) {
+  #meters {
+    width: 120px;
+  }
+  .meter-label {
+    font-size: 0.8rem;
+  }
+  .meter-bar {
+    height: 8px;
+  }
+}
+
+/* Mission guide overlay */
+#mission-guide {
+  position: absolute;
+  top: 6%;
+  right: 3%;
+  z-index: 9000;
+  background-color: rgba(11, 16, 30, 0.8);
+  padding: 12px 16px;
+  border-radius: 6px;
+  width: 280px;
+  font-family: var(--font-display);
+  color: #fff;
+}
+
+.mission-title {
+  font-size: 1.6rem;
+  color: #FFB547;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.mission-desc {
+  font-size: 1.0rem;
+  margin-bottom: 8px;
+  color: #ccc;
+}
+
+.mission-tasks {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.mission-tasks li {
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 6px;
+  font-size: 1.0rem;
+}
+
+.mission-tasks li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #FD3D21;
+}
+
+/* Smaller on mobile */
+@media (max-width: 768px) {
+  #mission-guide {
+    width: 200px;
+    padding: 8px 12px;
+  }
+  .mission-title {
+    font-size: 1.1rem;
+  }
+  .mission-desc,
+  .mission-tasks li {
+    font-size: 0.8rem;
+  }
+}
+
+/* ===============================
+   Hi‑Scores overlay
+   =============================== */
+
+#hiscores {
+  position: absolute;
+  top: 6%;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 80%;
+  margin: 0 auto;
+  overflow-y: auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.hiscores-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#hiscores::-webkit-scrollbar {
+  width: 8px;
+}
+
+#hiscores::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 4px;
+}
+
+#hiscores::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#hiscores .group + .group {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid color-mix(in srgb, var(--starlight) 22%, transparent);
+}
+
+.section-title {
+  margin: 0 0 8px 0;
+  font-family: var(--font-display);
+  letter-spacing: var(--track-wide);
+  font-size: 16px;
+  color: var(--solar-gold);
+  opacity: 0.95;
+}
+
+/* Slightly denser grids on very wide screens */
+@media (min-width: 1200px) {
+  .boards { grid-template-columns: 1fr 1fr; }
+}
+
+.hiscores-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.hiscores-logo {
+  max-width: 250px;
+  margin-bottom: 10px;
+}
+
+.hiscores-header h1 {
+  margin: 0;
+  text-align: center;
+}
+
+#hiscores .subtitle {
+  margin: 0;
+  color: var(--starlight);
+  font-size: 14px;
+  font-family: var(--font-body);
+}
+
+.boards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.board {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid color-mix(in srgb, var(--starlight) 18%, transparent);
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.board-title {
+  margin: 0 0 10px 0;
+  font-family: var(--font-display);
+  font-size: 18px;
+  letter-spacing: var(--track-wide);
+  color: var(--nasa-white);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.game-tag {
+  font-family: var(--font-display);
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+}
+.game-tag.game-sweep {
+  color: var(--chip-fg);
+  background: var(--chip-bg);
+  border-color: var(--chip-border);
+}
+.game-tag.game-nav {
+  color: var(--nasa-white);
+  background: color-mix(in srgb, var(--nebula-purple) 28%, transparent);
+  border-color: color-mix(in srgb, var(--nebula-purple) 42%, transparent);
+}
+
+.entries {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 6px;
+}
+
+.entry {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.entry .name {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--nasa-white);
+}
+.entry .score {
+  font-family: var(--font-display);
+  font-size: 16px;
+  letter-spacing: var(--track-wide);
+  color: var(--nasa-red);
+}
+
+/* top three subtle highlight */
+.entries li:nth-child(1) { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--solar-gold) 55%, transparent); }
+.entries li:nth-child(2) { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--starlight) 45%, transparent); }
+.entries li:nth-child(3) { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--cosmic-teal) 40%, transparent); }
+
+/* Responsive */
+@media (max-width: 900px) {
+  #hiscores { inset: 8% 4% auto 4%; }
+  .boards { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  #hiscores { inset: 10% 3% auto 3%; padding: 12px; }
+  #hiscores h1 { font-size: 20px; }
+  .board-title { font-size: 16px; }
+  .entry .name { font-size: 13px; }
+  .entry .score { font-size: 14px; }
+}
+
+/* ==========================================================================
+   Login popup styles
+   ========================================================================== */
+
+/* Backdrop */
+#loginPopup.popup-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(11, 15, 46, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+/* Panel */
+#loginPopup .popup-panel {
+  background: #0B0F2E;
+  padding: 20px;
+  border-radius: 8px;
+  width: 300px;
+  color: #fff;
+  font-family: var(--font-body);
+}
+
+/* Labels & Inputs */
+#loginPopup label {
+  display: block;
+  margin-top: 10px;
+}
+
+#loginPopup input {
+  width: 95%;
+  padding: 6px;
+  margin-top: 4px;
+  border: none;
+  border-radius: 4px;
+}
+
+/* Buttons */
+#loginPopup .popup-buttons {
+  margin-top: 25px;
+  display: flex;
+  gap: 10px;
+}
+
+#loginPopup button {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: var(--font-display);
+  font-size: 16px;
+}
+
+#loginSubmit {
+  background: #0B3D91;
+  color: white;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+#loginSubmit:hover {
+  background: #1456c2;
+  transform: translateY(-2px);
+}
+
+#loginReset {
+  background: #FFB547;
+  color: black;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+#loginReset:hover {
+  background: #ffcc74;
+  transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   Responsiveness and mobile adjustments
    ========================================================================== */
 
 @media (max-width: 900px) {
@@ -451,7 +1027,6 @@ iframe {
 }
 
 @media (max-width: 600px){
-  /* Half-size circular info button on mobile */
   #infoBtn{
     top: auto;
     bottom: 5%;
@@ -465,18 +1040,14 @@ iframe {
     letter-spacing: 0.02em;
   }
 
-  /* scale the glow halo with the smaller button */
   #infoBtn::before{
     inset: -6px;
   }
 
-  /* keep the subtle nudge on tap/hover */
   #infoBtn:hover  { transform: translateY(-1px); }
   #infoBtn:active { transform: translateY(0); }
 
-  /* Let the panel use the full visible height between top/bottom insets */
   #protoModal .modal-panel{
-    /* anchor instead of true center */
     top: calc(env(safe-area-inset-top, 0px) + 12px);
     bottom: calc(env(safe-area-inset-bottom, 0px) + 12px);
     left: 50%;
@@ -490,11 +1061,26 @@ iframe {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto;
   }
+
+  #score-label,
+  #speed-label {
+    font-size: 1.1rem;
+  }
+
+  #score-value,
+  #speed-value {
+    font-size: 1.6rem;
+  }
+
+  #mission-guide {
+    position: absolute;
+    top: 2%;
+    right: 1%;
+  }
 }
 
-
 /* ==========================================================================
-   Platform polish: scrollbar styling for media track
+   Platform polish and utility styles
    ========================================================================== */
 
 #protoModal .media-track::-webkit-scrollbar { height: 8px; }
@@ -527,7 +1113,7 @@ iframe {
    Keyframes for animated effects
    ========================================================================== */
 
-/* Ambient glow cycle on the button itself */
+/* Ambient glow cycle on info button */
 @keyframes infoPulse{
   0%, 100% {
     box-shadow:
@@ -541,14 +1127,13 @@ iframe {
   }
 }
 
-/* Expanding, fading ring behind the button */
+/* Glowing ring effect on info button */
 @keyframes infoRing{
   0%   { transform: scale(1);   box-shadow: 0 0 0 0  color-mix(in srgb, var(--pulse-color) 40%, transparent); opacity: .55; }
   70%  { transform: scale(1.8); box-shadow: 0 0 0 16px color-mix(in srgb, var(--pulse-color) 0%,  transparent); opacity: 0; }
   100% { transform: scale(1.8); box-shadow: 0 0 0 16px transparent; opacity: 0; }
 }
 
-/* Motion preference */
 @media (prefers-reduced-motion: reduce){
   #infoBtn{ animation: none; }
   #infoBtn::before{ animation: none; }

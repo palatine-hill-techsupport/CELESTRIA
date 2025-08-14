@@ -2,16 +2,177 @@
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
-    <title>Hi-Scores</title>
+    <title>Hi‑Scores</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://use.typekit.net/hdd1ppw.css">
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
     <script src="scripts.js" defer></script>
-    <meta name="viewport" content="width=device-width,initial-scale=1"/>
 </head>
 <body>
-    <div id="overlayBorder"></div>
-    <button id="menuBtn" onclick="window.location.href='index.html'">Menu</button>
-    <p>test page pls ignore</p>
-</body>
 
+    <!-- Background Audio -->
+    <audio id="bgm" src="soundscape.mp3" preload="auto" loop muted></audio>
+
+    <!-- Back/Menu -->
+    <button id="menuBtn" type="button" onclick="window.location.href='index.html'">Menu</button>
+
+    <!-- A‑Frame space backdrop -->
+    <a-scene xr-mode-ui="enabled: false">
+        <a-assets>
+        <img id="pano-space" src="images/background.jpeg" crossorigin="anonymous">
+        </a-assets>
+        <a-sky id="sky" src="#pano-space" rotation="0 -90 0"
+            animation="property: rotation; to: 0 270 0; loop: true; dur: 1500000; easing: linear"></a-sky>
+        <a-entity id="rig" position="0 1.6 0"><a-entity camera look-controls="enabled:false"></a-entity></a-entity>
+        <a-entity light="type: ambient; intensity: 0.8"></a-entity>
+        <a-entity light="type: directional; intensity: 0.6" position="1 2 1"></a-entity>
+    </a-scene>
+
+    <!-- Hi‑Scores overlay -->
+    <section id="hiscores">
+
+        <header class="hiscores-header">
+            <img src="images/logo.png" alt="Game Logo" class="hiscores-logo">
+            <h1>Hi-Scores</h1>
+        </header>
+
+        <!-- Your School -->
+        <div class="group">
+        <h2 class="section-title">Hi‑Scores: Your School</h2>
+        <div class="boards">
+            <article class="board">
+            <h3 class="board-title">
+                <span class="game-tag game-sweep">Space Junk Sweeper</span>
+                Most Trash Collected
+            </h3>
+            <ol class="entries">
+                <li class="entry"><span class="name">A. Nova</span><span class="score"><b>1,240</b> kg</span></li>
+                <li class="entry"><span class="name">R. Vega</span><span class="score"><b>1,115</b> kg</span></li>
+                <li class="entry"><span class="name">K. Orion</span><span class="score"><b>1,030</b> kg</span></li>
+                <li class="entry"><span class="name">M. Polaris</span><span class="score"><b>980</b> kg</span></li>
+                <li class="entry"><span class="name">S. Lyra</span><span class="score"><b>915</b> kg</span></li>
+            </ol>
+            </article>
+
+            <article class="board">
+            <h3 class="board-title">
+                <span class="game-tag game-nav">NavTrax</span>
+                Highest Mission Score
+            </h3>
+            <ol class="entries">
+                <li class="entry"><span class="name">T. Kepler</span><span class="score"><b>9,750</b> pts</span></li>
+                <li class="entry"><span class="name">V. Cassini</span><span class="score"><b>9,320</b> pts</span></li>
+                <li class="entry"><span class="name">D. Hubble</span><span class="score"><b>8,980</b> pts</span></li>
+                <li class="entry"><span class="name">L. Armstrong</span><span class="score"><b>8,430</b> pts</span></li>
+                <li class="entry"><span class="name">E. Tsiolkovsky</span><span class="score"><b>8,020</b> pts</span></li>
+            </ol>
+            </article>
+        </div>
+        </div>
+
+    <!-- State -->
+    <div class="group">
+      <h2 class="section-title">Hi‑Scores: Schools in your State</h2>
+      <div class="boards">
+        <article class="board">
+          <h3 class="board-title">
+            <span class="game-tag game-sweep">Space Junk Sweeper</span>
+            Most Trash Collected
+          </h3>
+          <ol class="entries">
+            <li class="entry"><span class="name">A. Nova (Your School)</span><span class="score"><b>1,240</b> kg</span></li>
+            <li class="entry"><span class="name">C. Sirius</span><span class="score"><b>1,420</b> kg</span></li>
+            <li class="entry"><span class="name">R. Vega (Your School)</span><span class="score"><b>1,115</b> kg</span></li>
+            <li class="entry"><span class="name">Z. Altair</span><span class="score"><b>1,060</b> kg</span></li>
+            <li class="entry"><span class="name">K. Orion (Your School)</span><span class="score"><b>1,030</b> kg</span></li>
+          </ol>
+        </article>
+
+        <article class="board">
+          <h3 class="board-title">
+            <span class="game-tag game-nav">NavTrax</span>
+            Highest Mission Score
+          </h3>
+          <ol class="entries">
+            <li class="entry"><span class="name">V. Cassini (Your School)</span><span class="score"><b>9,320</b> pts</span></li>
+            <li class="entry"><span class="name">G. Sagan</span><span class="score"><b>10,140</b> pts</span></li>
+            <li class="entry"><span class="name">D. Hubble (Your School)</span><span class="score"><b>8,980</b> pts</span></li>
+            <li class="entry"><span class="name">H. Halley</span><span class="score"><b>8,770</b> pts</span></li>
+            <li class="entry"><span class="name">L. Armstrong (Your School)</span><span class="score"><b>8,430</b> pts</span></li>
+          </ol>
+        </article>
+      </div>
+    </div>
+
+    <!-- Country -->
+    <div class="group">
+      <h2 class="section-title">Hi‑Scores: Schools in your Country</h2>
+      <div class="boards">
+        <article class="board">
+          <h3 class="board-title">
+            <span class="game-tag game-sweep">Space Junk Sweeper</span>
+            Most Trash Collected
+          </h3>
+          <ol class="entries">
+            <li class="entry"><span class="name">I. Andromeda</span><span class="score"><b>1,860</b> kg</span></li>
+            <li class="entry"><span class="name">C. Sirius (State)</span><span class="score"><b>1,420</b> kg</span></li>
+            <li class="entry"><span class="name">A. Nova (Your School)</span><span class="score"><b>1,240</b> kg</span></li>
+            <li class="entry"><span class="name">Z. Altair (State)</span><span class="score"><b>1,060</b> kg</span></li>
+            <li class="entry"><span class="name">R. Vega (Your School)</span><span class="score"><b>1,115</b> kg</span></li>
+          </ol>
+        </article>
+
+        <article class="board">
+          <h3 class="board-title">
+            <span class="game-tag game-nav">NavTrax</span>
+            Highest Mission Score
+          </h3>
+          <ol class="entries">
+            <li class="entry"><span class="name">A. Hawking</span><span class="score"><b>12,300</b> pts</span></li>
+            <li class="entry"><span class="name">G. Sagan (State)</span><span class="score"><b>10,140</b> pts</span></li>
+            <li class="entry"><span class="name">V. Cassini (Your School)</span><span class="score"><b>9,320</b> pts</span></li>
+            <li class="entry"><span class="name">T. Kepler</span><span class="score"><b>9,120</b> pts</span></li>
+            <li class="entry"><span class="name">D. Hubble (Your School)</span><span class="score"><b>8,980</b> pts</span></li>
+          </ol>
+        </article>
+      </div>
+    </div>
+
+    <!-- Worldwide -->
+    <div class="group">
+      <h2 class="section-title">Hi‑Scores: Schools Worldwide</h2>
+      <div class="boards">
+        <article class="board">
+          <h3 class="board-title">
+            <span class="game-tag game-sweep">Space Junk Sweeper</span>
+            Most Trash Collected
+          </h3>
+          <ol class="entries">
+            <li class="entry"><span class="name">Q. Pulsar</span><span class="score"><b>2,520</b> kg</span></li>
+            <li class="entry"><span class="name">I. Andromeda (Country)</span><span class="score"><b>1,860</b> kg</span></li>
+            <li class="entry"><span class="name">C. Sirius (State)</span><span class="score"><b>1,420</b> kg</span></li>
+            <li class="entry"><span class="name">A. Nova (Your School)</span><span class="score"><b>1,240</b> kg</span></li>
+            <li class="entry"><span class="name">Z. Altair (State)</span><span class="score"><b>1,060</b> kg</span></li>
+          </ol>
+        </article>
+
+        <article class="board">
+          <h3 class="board-title">
+            <span class="game-tag game-nav">NavTrax</span>
+            Highest Mission Score
+          </h3>
+          <ol class="entries">
+            <li class="entry"><span class="name">M. Curie</span><span class="score"><b>14,800</b> pts</span></li>
+            <li class="entry"><span class="name">A. Hawking (Country)</span><span class="score"><b>12,300</b> pts</span></li>
+            <li class="entry"><span class="name">G. Sagan (State)</span><span class="score"><b>10,140</b> pts</span></li>
+            <li class="entry"><span class="name">V. Cassini (Your School)</span><span class="score"><b>9,320</b> pts</span></li>
+            <li class="entry"><span class="name">T. Kepler</span><span class="score"><b>9,120</b> pts</span></li>
+          </ol>
+        </article>
+      </div>
+    </div>
+  </section>
+</body>
 </html>

@@ -3,15 +3,54 @@
 <head>
     <meta charset="utf-8"/>
     <title>NavTrax</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://use.typekit.net/hdd1ppw.css">
     <script src="scripts.js" defer></script>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
 </head>
 <body>
-    <div id="overlayBorder"></div>
-    <button id="menuBtn" onclick="window.location.href='index.html'">Menu</button>
 
+    <!-- Background Audio -->
+    <audio id="bgm" src="soundscape.mp3" preload="auto" loop muted></audio>
+
+    <!-- Cockpit meters -->
+    <div id="meters">
+    <div class="meter">
+        <span class="meter-label">Force</span>
+        <div class="meter-bar"><div class="meter-fill" id="force-fill"></div></div>
+    </div>
+    <div class="meter">
+        <span class="meter-label">Velocity</span>
+        <div class="meter-bar"><div class="meter-fill" id="velocity-fill"></div></div>
+    </div>
+    <div class="meter">
+        <span class="meter-label">Fuel</span>
+        <div class="meter-bar"><div class="meter-fill" id="fuel-fill"></div></div>
+    </div>
+    <div class="meter">
+        <span class="meter-label">System Vitals</span>
+        <div class="meter-bar"><div class="meter-fill" id="vitals-fill"></div></div>
+    </div>
+    </div>
+
+    <!-- Quest tracker style mission guide -->
+    <div id="mission-guide">
+    <h3 class="mission-title">Mission 2</h3>
+    <p class="mission-desc">
+        Monitor and adjust the rotation of the station’s gravity ring from the cockpit.
+    </p>
+    <ul class="mission-tasks">
+        <li>Maintain artificial gravity stability</li>
+        <li>Dispatch repair drones to damaged components</li>
+        <li>Prevent spin-out of critical modules</li>
+    </ul>
+    </div>
+
+    <div id="overlayBorder"></div>
+    <button id="menuBtn" type="button" aria-haspopup="dialog" aria-controls="menuModal">Menu</button>
+
+    <!-- Model iframe -->
     <iframe 
         src="https://sketchfab.com/models/4caa8ea957694250841ed614b996c1b1/embed?autostart=1&preload=1&ui_theme=dark&ui_infos=0&ui_controls=0&ui_watermark=0&ui_watermark_link=0"
         allow="autoplay; fullscreen; xr-spatial-tracking"
@@ -88,21 +127,56 @@
         <!-- Right column: media grid -->
         <div class="media-grid">
             <!-- Replace sources with your real assets -->
-            <button class="thumb" type="button" data-src="images/navtrax/navtrax-01.jpg" aria-label="Open image 1">
-            <img src="images/nt/nt-demo-1.png" alt="XXX">
+            <button class="thumb" type="button" data-src="images/nt/nt-demo-1.png" aria-label="Open image 1">
+            <img src="images/nt/nt-demo-1.png" alt="NavTrax cockpit UI sketch">
             </button>
-            <button class="thumb" type="button" data-src="images/navtrax/navtrax-02.jpg" aria-label="Open image 2">
-            <img src="images/nt/nt-demo-2.jpg" alt="XXX">
+            <button class="thumb" type="button" data-src="images/nt/nt-demo-2.jpg" aria-label="Open image 2">
+            <img src="images/nt/nt-demo-2.jpg" alt="NavTrax station UI sketch">
             </button>
-            <button class="thumb" type="button" data-src="images/navtrax/navtrax-03.jpg" aria-label="Open image 3">
-            <img src="images/nt/nt-demo-3.png" alt="XXX">
+            <button class="thumb" type="button" data-src="images/nt/nt-demo-3.png" aria-label="Open image 3">
+            <img src="images/nt/nt-demo-3.png" alt="Backgrounfnd pixel art 1">
             </button>
-            <button class="thumb" type="button" data-src="images/navtrax/navtrax-04.png" aria-label="Open image 4">
-            <img src="images/nt/nt-demo-4.png" alt="XXX">
+            <button class="thumb" type="button" data-src="images/nt/nt-demo-4.png" aria-label="Open image 4">
+            <img src="images/nt/nt-demo-4.png" alt="Ship 3D model">
             </button>
-            <button class="thumb" type="button" data-src="images/navtrax/navtrax-05.png" aria-label="Open image 5">
-            <img src="images/nt/nt-demo-5.jpg" alt="XXX">
+            <button class="thumb" type="button" data-src="images/nt/nt-demo-5.jpg" aria-label="Open image 5">
+            <img src="images/nt/nt-demo-5.jpg" alt="Ship sprites">
             </button>
+        </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- Pause / Settings Menu -->
+    <div id="menuModal" aria-hidden="true">
+    <div class="menu-panel">
+        <div class="menu-header">
+        <h2 class="menu-title">Menu</h2>
+        <button id="menuClose" aria-label="Close">×</button>
+        </div>
+
+        <div class="menu-body">
+        <!-- primary actions -->
+        <button id="goHome" class="menu-btn menu-btn-primary" type="button">HOME</button>
+        <button id="openSettings" class="menu-btn" type="button">SETTINGS</button>
+
+        <!-- controls -->
+        <div class="menu-section">
+            <div class="menu-row">
+            <label for="fovRange" class="menu-label">FOV</label>
+            <input id="fovRange" class="fov-range" type="range" min="60" max="120" value="90" step="1" />
+            <output id="fovValue" class="menu-value" for="fovRange">90°</output>
+            </div>
+
+            <div class="menu-row">
+            <span class="menu-label">Colour Blind Mode</span>
+            <button id="toggleCb" class="menu-toggle" type="button" aria-pressed="false">OFF</button>
+            </div>
+
+            <div class="menu-row">
+            <span class="menu-label">Captions</span>
+            <button id="toggleCaptions" class="menu-toggle" type="button" aria-pressed="false">OFF</button>
+            </div>
         </div>
         </div>
     </div>

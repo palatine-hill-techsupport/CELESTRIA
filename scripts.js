@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+
   // Main menu buttons
   const btnNav = document.querySelector('#btn-navtrax');
   const btnSweep = document.querySelector('#btn-sweep');
@@ -10,12 +11,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnFacilitatorLogin = document.querySelector('#btn-facilitator-login');
 
   // Video + UI
-  const video = document.querySelector('#pitch');          // <video> in assets
-  const videoUI = document.querySelector('#videoPlane');   // <a-video> in scene
+  const video = document.querySelector('#pitch');
+  const videoUI = document.querySelector('#videoPlane');
 
   // Close “X”
-  const btnCloseVideo = document.querySelector('#btn-close-video'); // red square
-  const txtCloseVideo = document.querySelector('#txt-close-video'); // "X" text
+  const btnCloseVideo = document.querySelector('#btn-close-video');
+  const txtCloseVideo = document.querySelector('#txt-close-video');
 
   // Small press animation
   function clickPulse(el) {
@@ -45,7 +46,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (txtCloseVideo) txtCloseVideo.setAttribute('visible', false);
   }
 
-  // Wire up “Presentation” as a toggle
   if (btnPitch) {
     btnPitch.addEventListener('click', () => {
       clickPulse(btnPitch);
@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (btnCloseVideo) btnCloseVideo.addEventListener('click', closeVideo);
   if (txtCloseVideo) txtCloseVideo.addEventListener('click', closeVideo);
 
-  // (Optional) ESC key closes the video
+  // ESC key closes the video
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeVideo();
   });
@@ -93,23 +93,111 @@ document.addEventListener("DOMContentLoaded", () => {
     btnFacilitatorLogin.addEventListener('click', () => clickPulse(btnFacilitatorLogin));
   }
 
+  // --- Scoreboard logic ----------------------------------------------------
+  const scoreValueEl = document.getElementById("score-value");
+  if (scoreValueEl) {
+    let score = 0;
+
+    function updateScore() {
+      score += Math.floor(Math.random() * 50) + 1;
+      if (score > 500) score = 0;
+      scoreValueEl.textContent = `${score}kg`;
+    }
+
+    function scheduleNextScoreUpdate() {
+      const delay = Math.floor(Math.random() * (10000 - 3000 + 1)) + 3000;
+      setTimeout(() => {
+        updateScore();
+        scheduleNextScoreUpdate();
+      }, delay);
+    }
+
+    scheduleNextScoreUpdate();
+  }
+
+  // --- Speedometer logic ---------------------------------------------------
+  const speedValueEl = document.getElementById("speed-value");
+  if (speedValueEl) {
+    const MAX_SPEED = 25000;
+    let speed = 0;
+    let dir = 1;
+    let pivot = pickPivotUp();
+
+    function pickPivotUp() {
+      return Math.floor((0.35 + Math.random() * 0.60) * MAX_SPEED);
+    }
+    function pickPivotDown() {
+      return Math.floor((0.05 + Math.random() * 0.60) * MAX_SPEED);
+    }
+
+    function updateSpeed() {
+      const step = Math.floor(200 + Math.random() * 800);
+      speed += dir * step;
+
+      if (speed >= MAX_SPEED) { speed = MAX_SPEED; dir = -1; pivot = pickPivotDown(); }
+      if (speed <= 0)         { speed = 0;         dir =  1; pivot = pickPivotUp(); }
+
+      if (dir === 1 && speed >= pivot) dir = -1, pivot = pickPivotDown();
+      if (dir === -1 && speed <= pivot) dir = 1, pivot = pickPivotUp();
+
+      speedValueEl.textContent = `${speed.toLocaleString()}km/h`;
+    }
+
+    setInterval(updateSpeed, 1000);
+  }
+
+  // --- Cockpit meters animation ---
+  function animateMeter(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    let val = Math.random() * 100;
+    setInterval(() => {
+      // random up/down change
+      val += (Math.random() - 0.5) * 20;
+      if (val > 100) val = 100;
+      if (val < 0) val = 0;
+      el.style.width = val + "%";
+    }, 1000);
+  }
+
+  animateMeter("force-fill");
+  animateMeter("velocity-fill");
+  animateMeter("fuel-fill");
+  animateMeter("vitals-fill");
+
 });
 
-// Prototype modal + lightbox
+// Prototype modal + lightbox + Pause menu
 document.addEventListener("DOMContentLoaded", () => {
-  // Elements
-  const infoBtn     = document.getElementById("infoBtn");
-  const protoModal  = document.getElementById("protoModal");
-  const modalClose  = document.getElementById("modalClose");
+  // --- Shorthands -----------------------------------------------------------
+  const $  = (s) => document.querySelector(s);
+  const on = (el, ev, fn) => el && el.addEventListener(ev, fn);
+  const shown = (el) => !!el && getComputedStyle(el).display !== "none";
+  const lock   = () => { document.documentElement.style.overflow = "hidden"; document.body.style.overflow = "hidden"; };
+  const unlock = () => { document.documentElement.style.overflow = "";      document.body.style.overflow = "";      };
 
-  const lightbox    = document.getElementById("lightbox");
-  const lightboxImg = document.getElementById("lightboxImg");
-  const lightboxClose = document.getElementById("lightboxClose");
+  // --- Prototype modal elements --------------------------------------------
+  const infoBtn     = $("#infoBtn");
+  const protoModal  = $("#protoModal");
+  const modalClose  = $("#modalClose");
+  const lightbox    = $("#lightbox");
+  const lightboxImg = $("#lightboxImg");
+  const lightboxClose = $("#lightboxClose");
 
-  // Bail out on pages that don't have the modal
-  if (!infoBtn || !protoModal || !modalClose) return;
+  // --- Menu modal elements --------------------------------------------------
+  const menuBtn    = $("#menuBtn");
+  const menuModal  = $("#menuModal");
+  const menuClose  = $("#menuClose");
+  const goHome     = $("#goHome");
+  const fovRange   = $("#fovRange");
+  const fovValue   = $("#fovValue");
+  const toggleCb   = $("#toggleCb");
+  const toggleCap  = $("#toggleCaptions");
 
-  let lastFocus = null; // to restore focus after closing
+  // If none of the modals exist, bail quietly
+  if (!protoModal && !menuModal) return;
+
+  let lastFocus = null;
 
   // --- Lightbox helpers -----------------------------------------------------
   const openLightbox = (src, alt = "") => {
@@ -119,7 +207,6 @@ document.addEventListener("DOMContentLoaded", () => {
     lightbox.style.display = "flex";
     lightbox.setAttribute("aria-hidden", "false");
   };
-
   const closeLightbox = () => {
     if (!lightbox || !lightboxImg) return;
     lightbox.style.display = "none";
@@ -128,38 +215,51 @@ document.addEventListener("DOMContentLoaded", () => {
     lightboxImg.alt = "";
   };
 
-  // --- Modal helpers --------------------------------------------------------
-  const openModal = () => {
+  // --- Prototype modal helpers -----------------------------------------------
+  const openProto = () => {
+    if (!protoModal) return;
+    if (shown(menuModal)) closeMenu();
     lastFocus = document.activeElement;
     protoModal.style.display = "block";
     protoModal.setAttribute("aria-hidden", "false");
-    document.documentElement.style.overflow = "hidden";
-    document.body.style.overflow = "hidden";
-    modalClose.focus();
+    lock();
+    modalClose && modalClose.focus();
   };
-
-  const closeModal = () => {
-    closeLightbox(); // ensure image overlay is also closed
+  const closeProto = () => {
+    if (!protoModal) return;
+    closeLightbox();
     protoModal.style.display = "none";
     protoModal.setAttribute("aria-hidden", "true");
-    document.documentElement.style.overflow = "";
-    document.body.style.overflow = "";
+    unlock();
     // Pause any videos in the modal
     protoModal.querySelectorAll("video").forEach(v => { try { v.pause(); } catch {} });
-    // Restore focus to where the user was
     if (lastFocus) { try { lastFocus.focus(); } catch {} }
   };
 
-  // --- Wiring: open/close modal --------------------------------------------
-  infoBtn.addEventListener("click", openModal);
-  modalClose.addEventListener("click", closeModal);
-  // Click outside the panel to close
-  protoModal.addEventListener("click", (e) => {
-    if (e.target === protoModal) closeModal();
-  });
+  // --- Menu modal helpers ---------------------------------------------------
+  const openMenu = () => {
+    if (!menuModal) return;
+    if (shown(protoModal)) closeProto();
+    lastFocus = document.activeElement;
+    menuModal.style.display = "block";
+    menuModal.setAttribute("aria-hidden", "false");
+    lock();
+    menuClose && menuClose.focus();
+  };
+  const closeMenu = () => {
+    if (!menuModal) return;
+    menuModal.style.display = "none";
+    menuModal.setAttribute("aria-hidden", "true");
+    unlock();
+    if (lastFocus) { try { lastFocus.focus(); } catch {} }
+  };
 
-  // --- Wiring: thumbnail -> lightbox (event delegation) --------------------
-  protoModal.addEventListener("click", (e) => {
+  // --- Wire Prototype modal -------------------------------------------------
+  on(infoBtn,   "click", openProto);
+  on(modalClose,"click", closeProto);
+  on(protoModal,"click", (e) => { if (e.target === protoModal) closeProto(); });
+  // Thumb -> lightbox (event delegation)
+  on(protoModal,"click", (e) => {
     const btn = e.target.closest(".thumb");
     if (!btn || !protoModal.contains(btn)) return;
     const img = btn.querySelector("img");
@@ -167,20 +267,162 @@ document.addEventListener("DOMContentLoaded", () => {
     const alt = img?.alt || "Prototype image";
     if (src) openLightbox(src, alt);
   });
+  on(lightboxClose, "click", closeLightbox);
+  on(lightbox, "click", (e) => { if (e.target === lightbox) closeLightbox(); });
 
-  if (lightboxClose) lightboxClose.addEventListener("click", closeLightbox);
-  if (lightbox) {
-    // Click backdrop to close
-    lightbox.addEventListener("click", (e) => {
-      if (e.target === lightbox) closeLightbox();
+  // --- Wire Menu modal ------------------------------------------------------
+  if (menuBtn) {
+    // Use pointerdown first to avoid any oddities with iframes/focus
+    menuBtn.addEventListener("pointerdown", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      openMenu();
+    });
+
+    // Fallback click in case pointer events are not supported
+    menuBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      openMenu();
     });
   }
 
-  // --- Keyboard: Esc closes lightbox first, then modal ---------------------
+  if (menuClose) {
+    menuClose.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      closeMenu();
+    });
+  }
+
+  // Close when clicking the dark backdrop
+  if (menuModal) {
+    menuModal.addEventListener("click", (e) => {
+      if (e.target === menuModal) closeMenu();
+    });
+  }
+
+  // --- Keyboard behaviour ---------------------------------------------------
   window.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") {
-      if (lightbox && lightbox.style.display === "flex") closeLightbox();
-      else if (protoModal.style.display === "block") closeModal();
-    }
+    if (e.key !== "Escape") return;
+    if (shown(lightbox)) closeLightbox();
+    else if (shown(protoModal)) closeProto();
+    else if (shown(menuModal)) closeMenu();
   });
+
+  // --- Settings wiring (persists to localStorage) ---------------------------
+  const savedFov = localStorage.getItem("fov");
+  if (savedFov && fovRange && fovValue) {
+    fovRange.value = savedFov;
+    fovValue.textContent = `${savedFov}°`;
+  }
+  const savedCb  = localStorage.getItem("cbMode") === "true";
+  const savedCap = localStorage.getItem("captions") === "true";
+  if (toggleCb)  { toggleCb.setAttribute("aria-pressed", String(savedCb));  toggleCb.textContent  = savedCb ? "ON" : "OFF"; document.body.classList.toggle("cb-mode", savedCb); }
+  if (toggleCap) { toggleCap.setAttribute("aria-pressed", String(savedCap)); toggleCap.textContent = savedCap ? "ON" : "OFF"; document.body.classList.toggle("captions-on", savedCap); }
+
+  if (fovRange && fovValue) {
+    const syncFov = () => {
+      fovValue.textContent = `${fovRange.value}°`;
+      localStorage.setItem("fov", fovRange.value);
+    };
+    on(fovRange, "input",  syncFov);
+    on(fovRange, "change", syncFov);
+  }
+
+  const openSettings = document.getElementById("openSettings");
+  on(openSettings, "click", () => {
+    openSettings.textContent = "SETTINGS ✓";
+    setTimeout(() => { openSettings.textContent = "SETTINGS"; }, 900);
+  });
+
+  on(goHome, "click", () => { window.location.href = "index.html"; });
+
+  if (toggleCb) {
+    on(toggleCb, "click", () => {
+      const next = toggleCb.getAttribute("aria-pressed") !== "true";
+      toggleCb.setAttribute("aria-pressed", String(next));
+      toggleCb.textContent = next ? "ON" : "OFF";
+      document.body.classList.toggle("cb-mode", next);
+      localStorage.setItem("cbMode", String(next));
+    });
+  }
+  if (toggleCap) {
+    on(toggleCap, "click", () => {
+      const next = toggleCap.getAttribute("aria-pressed") !== "true";
+      toggleCap.setAttribute("aria-pressed", String(next));
+      toggleCap.textContent = next ? "ON" : "OFF";
+      document.body.classList.toggle("captions-on", next);
+      localStorage.setItem("captions", String(next));
+    });
+  }
 });
+
+// Login popup logic
+const loginPopup = document.getElementById("loginPopup");
+const btnUserLogin = document.getElementById("btn-user-login");
+const btnFacilitatorLogin = document.getElementById("btn-facilitator-login");
+const loginSubmit = document.getElementById("loginSubmit");
+const loginReset = document.getElementById("loginReset");
+
+function openLoginPopup() {
+  loginPopup.style.display = "flex";
+}
+
+function closeLoginPopup() {
+  loginPopup.style.display = "none";
+}
+
+if (btnUserLogin) btnUserLogin.addEventListener("click", openLoginPopup);
+if (btnFacilitatorLogin) btnFacilitatorLogin.addEventListener("click", openLoginPopup);
+
+if (loginPopup) {
+  loginPopup.addEventListener("click", (e) => {
+    if (e.target === loginPopup) closeLoginPopup();
+  });
+}
+
+window.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") closeLoginPopup();
+});
+
+if (loginSubmit) loginSubmit.addEventListener("click", () => {
+  // Hook: Add login authentication logic here
+  alert("Login clicked!");
+  closeLoginPopup();
+});
+
+if (loginReset) loginReset.addEventListener("click", () => {
+  document.getElementById("loginUser").value = "";
+  document.getElementById("loginPass").value = "";
+});
+
+// --- Background audio for non-A-Frame pages --------------------------------
+(function () {
+  const bgm = document.getElementById('bgm');
+  if (!bgm) return;
+
+  bgm.volume = 0.35;
+
+  // Try to play quietly on load (muted) – most browsers will allow this.
+  const tryPlay = () => bgm.play().catch(() => { /* ignored until user gesture */ });
+  tryPlay();
+
+  // On first user gesture, unmute and ensure playback
+  const kick = () => {
+    bgm.muted = false;
+    tryPlay();
+    window.removeEventListener('click', kick);
+    window.removeEventListener('keydown', kick);
+    window.removeEventListener('touchstart', kick, { passive: true });
+  };
+  window.addEventListener('click', kick);
+  window.addEventListener('keydown', kick);
+  window.addEventListener('touchstart', kick, { passive: true });
+
+  // (Optional nicety) Resume after tab becomes visible again
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) tryPlay();
+  });
+})();
+

@@ -3,7 +3,8 @@
 <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1"/>
-        <title>CELESTRIA (Draft)</title>
+        <title>NASA eClips presents: CELESTRIA</title>
+        <link rel="icon" type="image/x-icon" href="favicon.ico">
         <link rel="stylesheet" href="styles.css">
         <link rel="stylesheet" href="https://use.typekit.net/hdd1ppw.css">
         <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
@@ -12,8 +13,8 @@
 <body>
 <a-scene xr-mode-ui="enabled: true">
         <a-assets>
-                <img id="pano-space" src="background.jpeg" crossorigin="anonymous">
-                <img id="logo" src="logo.png" crossorigin="anonymous"> <!--  Partial credit to the lovely Caroline Serrao-Arnot -->
+                <img id="pano-space" src="images/background.jpeg" crossorigin="anonymous">
+                <img id="logo" src="images/logo.png" crossorigin="anonymous"> <!--  Partial credit to the lovely Caroline Serrao-Arnot -->
                 <video id="pitch" src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
                         loop crossorigin="anonymous" playsinline webkit-playsinline></video>
                 <audio id="bgm" src="soundscape.mp3" preload="auto"></audio>
@@ -32,13 +33,13 @@
 
         <!-- Login buttons -->
         <a-entity id="authBar" position="0 -1.05 -2">
-        <!-- User Login (Primary) -->
+        <!-- Student Login -->
         <a-plane id="btn-user-login" class="clickable" position="-0.4 1.3 0.01"
                 width="0.6" height="0.18" color="#0B0F2E" material="shader: flat"></a-plane>
-        <a-text value="User Login" align="center" color="#FFFFFF" width="1.2"
+        <a-text value="Student Login" align="center" color="#FFFFFF" width="1.2"
                 position="-0.4 1.3 0.02" material="depthTest:false"></a-text>
 
-        <!-- Facilitator Login (Positive/Support) -->
+        <!-- Facilitator Login -->
         <a-plane id="btn-facilitator-login" class="clickable" position="0.4 1.3 0.01"
                 width="0.6" height="0.18" color="#0B0F2E" material="shader: flat"></a-plane>
         <a-text value="Facilitator Login" align="center" color="#FFFFFF" width="1.2"
@@ -98,9 +99,28 @@
 
         <a-entity light="type: ambient; intensity: 0.8"></a-entity>
         <a-entity light="type: directional; intensity: 0.6" position="1 2 1"></a-entity>
+
         <a-entity id="bg-audio"
-          sound="src: #bgm; autoplay: true; loop: true; volume: 0.35">
+          sound="src: #bgm; autoplay: true; loop: true; volume: 0.5">
         </a-entity>
+
+        <!-- Login Popup -->
+        <div id="loginPopup" class="popup-backdrop" style="display:none;">
+        <div class="popup-panel">
+        <h2>User Login</h2>
+        <label for="loginUser">Username</label>
+        <input type="text" id="loginUser" name="username">
+
+        <label for="loginPass">Password</label>
+        <input type="password" id="loginPass" name="password">
+
+        <div class="popup-buttons">
+        <button id="loginSubmit">Login</button>
+        <button id="loginReset" type="reset">Reset</button>
+        </div>
+        </div>
+        </div>
+
 </a-scene>
 </body>
 </html>
