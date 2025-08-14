@@ -26,6 +26,11 @@
 
     <!-- Full-screen modal -->
     <div id="protoModal">
+        <!-- Lightbox inside the modal overlay -->
+        <div id="lightbox" aria-hidden="true">
+        <button id="lightboxClose" aria-label="Close image">×</button>
+        <img id="lightboxImg" alt="">
+        </div>
     <div class="modal-panel">
         <div class="modal-header">
         <h2 class="modal-title">🛰️ Space Junk Sweep: Prototype Overview</h2>
@@ -67,25 +72,24 @@
             </div>
         </div>
 
-        <!-- Right column: media scroller -->
-        <div class="media-wrap">
-            <div class="media-track">
-                <div class="media-item">
-                    <img src="images/sjs/sjs-demo-1.jpg" alt="XXX">
-                </div>
-                <div class="media-item">
-                    <img src="images/sjs/sjs-demo-2.jpg" alt="XXX">
-                </div>
-                <div class="media-item">
-                    <img src="images/sjs/sjs-demo-3.png" alt="XXX">
-                </div>
-                <div class="media-item">
-                    <img src="images/sjs/sjs-demo-4.png" alt="XXX">
-                </div>
-                <div class="media-item">
-                    <img src="images/sjs/sjs-demo-5.png" alt="XXX">
-                </div>
-            </div>
+        <!-- Right column: media grid -->
+        <div class="media-grid">
+        <!-- Use <button> for keyboard access; data-src feeds the lightbox -->
+        <button class="thumb" type="button" data-src="images/sjs/sjs-demo-1.jpg" aria-label="Open image 1">
+            <img src="images/sjs/sjs-demo-1.jpg" alt="Debris cluster intercepted by drone">
+        </button>
+        <button class="thumb" type="button" data-src="images/sjs/sjs-demo-2.jpg" aria-label="Open image 2">
+            <img src="images/sjs/sjs-demo-2.jpg" alt="Orbital dock collection point">
+        </button>
+        <button class="thumb" type="button" data-src="images/sjs/sjs-demo-3.png" aria-label="Open image 3">
+            <img src="images/sjs/sjs-demo-3.png" alt="Asteroid field concept art">
+        </button>
+        <button class="thumb" type="button" data-src="images/sjs/sjs-demo-4.png" aria-label="Open image 4">
+            <img src="images/sjs/sjs-demo-4.png" alt="Ship variants sheet">
+        </button>
+        <button class="thumb" type="button" data-src="images/sjs/sjs-demo-5.png" aria-label="Open image 5">
+            <img src="images/sjs/sjs-demo-5.png" alt="UI wireframe">
+        </button>
         </div>
     </div>
     </div>

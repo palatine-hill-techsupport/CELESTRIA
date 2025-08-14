@@ -93,7 +93,7 @@ iframe {
 }
 
 /* ==========================================================================
-   Component: primary navigation button (Menu)
+   Component: primary navigation button
    ========================================================================== */
 
 #menuBtn {
@@ -124,7 +124,7 @@ iframe {
 #menuBtn:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--ring); }
 
 /* ==========================================================================
-   Component: floating info button (opens prototype modal)
+   Component: floating info button
    ========================================================================== */
 
 /* Floating info control anchored on the right, vertically centered */
@@ -179,7 +179,7 @@ iframe {
 }
 
 /* ==========================================================================
-   Component: modal dialog (overlay + centered panel)
+   Component: modal dialog
    ========================================================================== */
 
 /* Overlay: covers viewport and blocks interaction with the page */
@@ -281,6 +281,95 @@ iframe {
   align-items: center;
   justify-items: center;
   gap: 8px;
+}
+
+/* Right column: grid of equal thumbnails */
+#protoModal .media-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  grid-auto-rows: 1fr;              /* even rows; aspect set by inner box */
+  gap: 12px;
+  align-content: start;
+  height: 100%;
+  overflow: auto;                    /* grid can scroll if needed */
+  padding-bottom: 2px;               /* breathing room for scrollbar */
+}
+
+/* Thumbnail: button reset and layout container */
+#protoModal .thumb{
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;              /* consistent tile shape */
+  padding: 0;
+  border: 1px solid color-mix(in srgb, var(--starlight) 18%, transparent);
+  border-radius: 10px;
+  background: transparent;
+  cursor: pointer;
+  overflow: hidden;
+  transition: border-color 120ms ease, transform 120ms ease;
+}
+#protoModal .thumb:hover{ 
+  border-color: color-mix(in srgb, var(--cosmic-teal) 40%, transparent);
+  transform: translateY(-1px);
+}
+#protoModal .thumb:focus-visible{
+  outline: none;
+  box-shadow: 0 0 0 3px var(--ring);
+}
+
+/* Thumbnail content fills its tile */
+#protoModal .thumb img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Lightbox overlay inside the protoModal layer */
+#lightbox{
+  position: fixed;                   /* relative to viewport, above panel */
+  inset: 0;
+  display: none;                     /* toggled by JS */
+  z-index: 12100;                    /* above .modal-panel (which is 12000+) */
+  background: rgba(0,0,0,.86);
+  align-items: center;               /* center image */
+  justify-content: center;
+  padding: 24px;
+}
+
+/* Lightbox image sizing within viewport */
+#lightboxImg{
+  max-width: 92vw;
+  max-height: 92vh;
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--starlight) 25%, transparent);
+  box-shadow: 0 30px 60px rgba(0,0,0,.6);
+}
+
+/* Lightbox close control anchored to top-right */
+#lightboxClose{
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  border: 0;
+  background: transparent;
+  color: var(--nasa-white);
+  font-size: 28px;
+  line-height: 1;
+  padding: 4px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 120ms ease;
+}
+#lightboxClose:hover{ background: rgba(255,255,255,0.08); }
+#lightboxClose:focus-visible{ outline: none; box-shadow: 0 0 0 3px var(--ring); }
+
+/* Mobile: fewer columns, larger taps */
+@media (max-width: 900px){
+  #protoModal .media-grid{ grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+}
+@media (max-width: 600px){
+  #protoModal .media-grid{ grid-template-columns: repeat(2, 1fr); }
 }
 
 /* Carousel track: horizontal scrolling within the column box */
