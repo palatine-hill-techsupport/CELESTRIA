@@ -772,7 +772,8 @@ iframe {
   bottom: 0;
   width: 80%;
   margin: 0 auto;
-  overflow-y: auto;
+  overflow-y: scroll;
+  scrollbar-width: none;
   padding: 20px;
   box-sizing: border-box;
 }
@@ -783,7 +784,7 @@ iframe {
 }
 
 #hiscores::-webkit-scrollbar {
-  width: 8px;
+  display: none;
 }
 
 #hiscores::-webkit-scrollbar-thumb {
