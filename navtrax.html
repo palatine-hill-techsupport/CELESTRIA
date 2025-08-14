@@ -26,43 +26,83 @@
 
     <!-- Full-screen modal -->
     <div id="protoModal">
+    <!-- Lightbox inside the modal overlay -->
+    <div id="lightbox" aria-hidden="true">
+        <button id="lightboxClose" aria-label="Close image">×</button>
+        <img id="lightboxImg" alt="">
+    </div>
+
     <div class="modal-panel">
         <div class="modal-header">
-        <h2 class="modal-title">Prototype Overview</h2>
+        <h2 class="modal-title">🚀 NavTrax: Prototype Overview</h2>
         <button id="modalClose" aria-label="Close">×</button>
         </div>
+
         <div class="modal-body">
         <!-- Left column: text -->
         <div class="desc">
-            <h3>What this prototype shows</h3>
+            <h3>Overview</h3>
             <p>
-            Replace this paragraph with a short overview of the specific game (NavTrax or Space Junk Sweep).
+            <b>NavTrax</b> transforms the space station cockpit into your training ground for mastering the art of orbital navigation.
+            You step into the role of a cadet-in-training, seated at a panoramic control console with thruster controls, HUD readouts,
+            and navigation systems. Over three immersive missions, you’ll learn how astronauts move in zero gravity, adjust orbital paths,
+            and dock with precision: without leaving the station’s command seat. Outside the viewport, rotating modules, drifting satellites,
+            and planetary horizons create a living scene. Each mission demands sharp reflexes, careful fuel management, and an understanding
+            of the invisible forces shaping your path. The experience blends high-stakes decision-making with visualised physics to make spaceflight tangible and fun.
             </p>
+
+            <h3>Gameplay</h3>
             <ul>
-            <li>Key point one</li>
-            <li>Key point two</li>
-            <li>Key point three</li>
+            <li><b>Mission 1:</b> Use hand-thruster controls to manoeuvre a drone outside the station, mastering zero-g navigation. Learn to stop by counter-thrusting and avoid overshooting target modules.</li>
+            <li><b>Mission 2:</b> Monitor and adjust the rotation of the station’s gravity ring from the cockpit. Keep artificial gravity stable while dispatching repair drones to fix damaged components before they spin out of control.</li>
+            <li><b>Mission 3:</b> Pilot a small remote pod from the navigation console to intercept and dock with moving satellites. Time your burns for slingshots, match velocity vectors, and secure a stable lock-on.</li>
             </ul>
+
+            <h3>Features</h3>
+            <ul>
+            <li><b>Interactive HUD:</b> Real-time forces, fuel levels, and velocity vectors.</li>
+            <li><b>Narrated Guidance:</b> Friendly AI “Apollo” explains concepts clearly.</li>
+            <li><b>Achievement System:</b> Earn badges like “Centripetal Champ” and “Zero-G Ninja”.</li>
+            </ul>
+
+            <h3>STEM Concepts Explored</h3>
+            <ul>
+            <li>Newton’s First Law, inertia, and reaction force</li>
+            <li>Centripetal force and artificial gravity</li>
+            <li>Orbital paths, slingshot manoeuvres, and velocity matching</li>
+            <li>Applied decision-making through trial, error, and feedback</li>
+            </ul>
+
             <div class="chips">
-            <span class="chip">Example tag</span>
-            <span class="chip">Another tag</span>
+            <span class="chip">Zero-G Navigation</span>
+            <span class="chip">Reaction Force</span>
+            <span class="chip">Artificial Gravity</span>
+            <span class="chip">Centripetal Force</span>
+            <span class="chip">Orbital Paths</span>
+            <span class="chip">Docking</span>
+            <span class="chip">Velocity Matching</span>
+            <span class="chip">Fuel Management</span>
             </div>
         </div>
 
-        <!-- Right column: media scroller -->
-        <div class="media-wrap">
-            <div class="media-track">
-            <div class="media-item">
-                <img src="assets/example1.jpg" alt="Example image">
-            </div>
-            <div class="media-item">
-                <img src="assets/example2.jpg" alt="Example image">
-            </div>
-            <div class="media-item">
-                <video src="assets/example-video.mp4" controls playsinline></video>
-            </div>
-            </div>
-            <div class="media-caption">Swipe or scroll to explore visuals and clips.</div>
+        <!-- Right column: media grid -->
+        <div class="media-grid">
+            <!-- Replace sources with your real assets -->
+            <button class="thumb" type="button" data-src="images/navtrax/navtrax-01.jpg" aria-label="Open image 1">
+            <img src="XXX" alt="XXX">
+            </button>
+            <button class="thumb" type="button" data-src="images/navtrax/navtrax-02.jpg" aria-label="Open image 2">
+            <img src="XXX" alt="XXX">
+            </button>
+            <button class="thumb" type="button" data-src="images/navtrax/navtrax-03.jpg" aria-label="Open image 3">
+            <img src="XXX" alt="XXX">
+            </button>
+            <button class="thumb" type="button" data-src="images/navtrax/navtrax-04.png" aria-label="Open image 4">
+            <img src="XXX" alt="XXX">
+            </button>
+            <button class="thumb" type="button" data-src="images/navtrax/navtrax-05.png" aria-label="Open image 5">
+            <img src="XXX" alt="XXX">
+            </button>
         </div>
         </div>
     </div>

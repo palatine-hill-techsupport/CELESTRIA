@@ -197,7 +197,7 @@ iframe {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: min(1100px, 92vw);
+  width: min(1300px, 88vw);
   max-height: min(100vh, 1000px);
   display: grid;
   grid-template-rows: auto 1fr;
@@ -221,7 +221,7 @@ iframe {
 }
 #protoModal .modal-title {
   margin: 0;
-  font-size: 18px;
+  font-size: 24px;
   font-family: var(--font-display);
   font-weight: 400;
   letter-spacing: var(--track-wide);
@@ -257,7 +257,7 @@ iframe {
   padding-right: 6px;
 }
 #protoModal .desc h3 {
-  margin: 0 0 8px 0;
+  margin: 8px 0 8px 0;
   font-size: 16px;
   font-family: var(--font-display);
   font-weight: 400;
@@ -283,23 +283,26 @@ iframe {
   gap: 8px;
 }
 
-/* Right column: grid of equal thumbnails */
+/* Right column: grid of equal thumbnails (auto-sized rows, compact columns) */
 #protoModal .media-grid{
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  grid-auto-rows: 1fr;              /* even rows; aspect set by inner box */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-auto-flow: row dense;
   gap: 12px;
+
+  /* live inside the right column and scroll if it overflows */
   align-content: start;
+  align-items: stretch;
+  min-height: 0;
   height: 100%;
-  overflow: auto;                    /* grid can scroll if needed */
-  padding-bottom: 2px;               /* breathing room for scrollbar */
+  overflow: auto;
 }
 
 /* Thumbnail: button reset and layout container */
 #protoModal .thumb{
   display: block;
   width: 100%;
-  aspect-ratio: 16 / 9;              /* consistent tile shape */
+  aspect-ratio: 16 / 9;
   padding: 0;
   border: 1px solid color-mix(in srgb, var(--starlight) 18%, transparent);
   border-radius: 10px;
@@ -327,12 +330,12 @@ iframe {
 
 /* Lightbox overlay inside the protoModal layer */
 #lightbox{
-  position: fixed;                   /* relative to viewport, above panel */
+  position: fixed;
   inset: 0;
-  display: none;                     /* toggled by JS */
-  z-index: 12100;                    /* above .modal-panel (which is 12000+) */
+  display: none;
+  z-index: 12100;
   background: rgba(0,0,0,.86);
-  align-items: center;               /* center image */
+  align-items: center;
   justify-content: center;
   padding: 24px;
 }
@@ -441,12 +444,26 @@ iframe {
 }
 
 @media (max-width: 600px){
+  /* Half-size circular info button on mobile */
   #infoBtn{
     top: auto;
     bottom: 5%;
+    right: 5%;
     transform: none;
-    font-size: 20px;
+
+    width: 6rem;
+    height: 6rem;
+
+    font-size: clamp(8px, 4.5vw, 12px);
+    letter-spacing: 0.02em;
   }
+
+  /* scale the glow halo with the smaller button */
+  #infoBtn::before{
+    inset: -6px;
+  }
+
+  /* keep the subtle nudge on tap/hover */
   #infoBtn:hover  { transform: translateY(-1px); }
   #infoBtn:active { transform: translateY(0); }
 }
