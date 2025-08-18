@@ -175,6 +175,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const shown = (el) => !!el && getComputedStyle(el).display !== "none";
   const lock   = () => { document.documentElement.style.overflow = "hidden"; document.body.style.overflow = "hidden"; };
   const unlock = () => { document.documentElement.style.overflow = "";      document.body.style.overflow = "";      };
+  const EMBED_SUFFIX = '?autoplay=1&rel=0&modestbranding=1';
+  const embedFromId = (id) => `https://www.youtube.com/embed/${id}${EMBED_SUFFIX}`;
 
   // --- Prototype modal elements --------------------------------------------
   const infoBtn     = $("#infoBtn");
@@ -356,6 +358,130 @@ document.addEventListener("DOMContentLoaded", () => {
       localStorage.setItem("captions", String(next));
     });
   }
+
+  // --- Mission video modals -------------------------------------------------
+  const missionCards = document.querySelectorAll('.mission-card');
+
+  function openMissionModal(modalId, videoUrl) {
+    const modal = document.getElementById(modalId);
+    if (!modal) return;
+
+    // Close any other modals that might be open
+    if (shown(protoModal)) closeProto();
+    if (shown(menuModal)) closeMenu();
+
+    // Populate iframe src only when opening
+    const iframe = modal.querySelector('.mission-video');
+    if (iframe) iframe.src = videoUrl;
+
+    lastFocus = document.activeElement;
+    modal.style.display = 'block';
+    modal.setAttribute('aria-hidden', 'false');
+    lock();
+
+    const closeBtn = modal.querySelector('.mission-close');
+    if (closeBtn) closeBtn.focus();
+  }
+
+  function closeMissionModal(modal) {
+    if (!modal) return;
+
+    // Stop playback by clearing the iframe src
+    const iframe = modal.querySelector('.mission-video');
+    if (iframe) iframe.src = '';
+
+    modal.style.display = 'none';
+    modal.setAttribute('aria-hidden', 'true');
+    unlock();
+    if (lastFocus) { try { lastFocus.focus(); } catch {} }
+  }
+
+  // Card click / key access (use video IDs -> build proper embed URLs)
+  missionCards.forEach(card => {
+    const modalId = card.getAttribute('data-modal');
+    const videoId = card.getAttribute('data-video-id');
+    const videoUrl = embedFromId(videoId);
+
+    // open on whole-card click
+    card.addEventListener('click', () => openMissionModal(modalId, videoUrl));
+
+    // Enter/Space on the <h3 role="button">
+    const titleBtn = card.querySelector('.mission-title[role="button"]');
+    if (titleBtn) {
+      titleBtn.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openMissionModal(modalId, videoUrl);
+        }
+      });
+      titleBtn.addEventListener('click', () => openMissionModal(modalId, videoUrl));
+    }
+  });
+
+  // Close buttons and backdrop click
+  document.querySelectorAll('.mission-modal').forEach(modal => {
+    const closeBtn = modal.querySelector('.mission-close');
+    if (closeBtn) closeBtn.addEventListener('click', () => closeMissionModal(modal));
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeMissionModal(modal);
+    });
+  });
+
+  // Add ESC support for mission modals
+  window.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    const openMission = Array.from(document.querySelectorAll('.mission-modal'))
+      .find(m => getComputedStyle(m).display !== 'none');
+    if (openMission) { closeMissionModal(openMission); }
+  });
+
+  // --- Mission list toggle ----------------------------------------
+  const missionToggle = document.getElementById('missionToggle');
+  const missionList   = document.querySelector('#mission-guide .missions-list');
+
+  if (missionToggle && missionList) {
+    missionToggle.addEventListener('click', () => {
+      const isHidden = missionList.style.display === 'none';
+      missionList.style.display = isHidden ? 'grid' : 'none';
+      missionToggle.textContent = isHidden 
+        ? '↑ Click here to hide mission list'
+        : '↓ Click here to show mission list';
+    });
+  }
+
+  // --- Switch model button ------------------------------------
+  const switchBtn = document.getElementById("switchBtn");
+  const iframe = document.querySelector("iframe");
+
+  if (switchBtn && iframe) {
+    let showingStation = false;
+    const cockpitURL = "https://sketchfab.com/models/4caa8ea957694250841ed614b996c1b1/embed?autostart=1&preload=1&ui_theme=dark&ui_infos=0&ui_controls=0&ui_watermark=0&ui_watermark_link=0";
+
+    const stationURL = "https://sketchfab.com/models/edb9c45ae45941c399cd21b5309bf138/embed?autostart=1&preload=1&ui_theme=dark&ui_infos=0&ui_controls=0&ui_watermark=0&ui_watermark_link=0";
+
+    switchBtn.addEventListener("click", () => {
+      if (showingStation) {
+        iframe.src = cockpitURL;
+        switchBtn.textContent = "Switch to space station model";
+      } else {
+        iframe.src = stationURL;
+        switchBtn.textContent = "Switch to space cockpit model";
+      }
+      showingStation = !showingStation;
+    });
+  }
+
+  // --- NavTrax teaser -> single video modal (ID -> embed URL) ---------------
+  const teaser = document.getElementById('navtrax-teaser');
+  if (teaser) {
+    const videoId = teaser.dataset.videoId || 'xRRvSp00JL4'; // fallback ID
+    const demoUrl = embedFromId(videoId);
+    const openDemo = () => openMissionModal('navDemoModal', demoUrl);
+
+    teaser.querySelector('.teaser-img')?.addEventListener('click', openDemo);
+    teaser.querySelector('.teaser-text')?.addEventListener('click', openDemo);
+  }
+
 });
 
 // Login popup logic
@@ -425,4 +551,5 @@ if (loginReset) loginReset.addEventListener("click", () => {
     if (!document.hidden) tryPlay();
   });
 })();
+
 

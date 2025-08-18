@@ -35,16 +35,36 @@
     </div>
 
     <!-- Quest tracker style mission guide -->
-    <div id="mission-guide">
-    <h3 class="mission-title">Mission 2</h3>
-    <p class="mission-desc">
-        Monitor and adjust the rotation of the station’s gravity ring from the cockpit.
-    </p>
-    <ul class="mission-tasks">
-        <li>Maintain artificial gravity stability</li>
-        <li>Dispatch repair drones to damaged components</li>
-        <li>Prevent spin-out of critical modules</li>
-    </ul>
+    <div id="mission-guide" aria-label="Mission guide">
+        <p class="mission-hint">Click a mission for a video demo of the mission.</p>
+    <div class="missions-list">
+        <!-- Mission 1 -->
+        <article class="mission-card" data-modal="missionModal1" data-video-id="pOMsriwQWEA">
+        <h3 class="mission-title" role="button" tabindex="0">Mission 1</h3>
+        <p class="mission-desc">
+            Master zero-G manoeuvring by piloting a service drone from the cockpit.
+        </p>
+        </article>
+
+        <!-- Mission 2 -->
+        <article class="mission-card" data-modal="missionModal2" data-video-id="b0g4mKC11Sw">
+        <h3 class="mission-title" role="button" tabindex="0">Mission 2</h3>
+        <p class="mission-desc">
+            Monitor and tune the station’s gravity ring rotation from the cockpit.
+        </p>
+        </article>
+
+        <!-- Mission 3 -->
+        <article class="mission-card" data-modal="missionModal3" data-video-id="Q3CTPwTxsZ4">
+        <h3 class="mission-title" role="button" tabindex="0">Mission 3</h3>
+        <p class="mission-desc">
+            Plot an intercept and dock with moving satellites using timed burns.
+        </p>
+        </article>
+    </div>
+    <div id="missionToggle" class="mission-toggle">
+        Click here to hide mission list
+    </div>
     </div>
 
     <div id="overlayBorder"></div>
@@ -60,7 +80,8 @@
         web-share>
     </iframe>
 
-    <!-- Floating button -->
+    <!-- Floating buttons -->
+    <button id="switchBtn" class="switch-btn">Switch to space station model</button>
     <button id="infoBtn">Open the prototype overview</button>
 
     <!-- Full-screen modal -->
@@ -142,6 +163,49 @@
             <button class="thumb" type="button" data-src="images/nt/nt-demo-5.jpg" aria-label="Open image 5">
             <img src="images/nt/nt-demo-5.jpg" alt="Ship sprites">
             </button>
+        </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- Mission video modals -->
+    <div id="missionModal1" class="mission-modal" aria-hidden="true">
+    <div class="mission-panel" role="dialog" aria-label="Mission 1 video">
+        <div class="mission-header">
+        <h2 class="mission-modal-title">Mission 1 — Video Demo</h2>
+        <button class="mission-close" aria-label="Close">×</button>
+        </div>
+        <div class="mission-body">
+        <div class="mission-video-wrap">
+            <iframe class="mission-video" allow="autoplay; fullscreen" allowfullscreen title="Mission 1 video"></iframe>
+        </div>
+        </div>
+    </div>
+    </div>
+
+    <div id="missionModal2" class="mission-modal" aria-hidden="true">
+    <div class="mission-panel" role="dialog" aria-label="Mission 2 video">
+        <div class="mission-header">
+        <h2 class="mission-modal-title">Mission 2 — Video Demo</h2>
+        <button class="mission-close" aria-label="Close">×</button>
+        </div>
+        <div class="mission-body">
+        <div class="mission-video-wrap">
+            <iframe class="mission-video" allow="autoplay; fullscreen" allowfullscreen title="Mission 2 video"></iframe>
+        </div>
+        </div>
+    </div>
+    </div>
+
+    <div id="missionModal3" class="mission-modal" aria-hidden="true">
+    <div class="mission-panel" role="dialog" aria-label="Mission 3 video">
+        <div class="mission-header">
+        <h2 class="mission-modal-title">Mission 3 — Video Demo</h2>
+        <button class="mission-close" aria-label="Close">×</button>
+        </div>
+        <div class="mission-body">
+        <div class="mission-video-wrap">
+            <iframe class="mission-video" allow="autoplay; fullscreen" allowfullscreen title="Mission 3 video"></iframe>
         </div>
         </div>
     </div>

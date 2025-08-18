@@ -14,6 +14,15 @@
     <!-- Background Audio -->
     <audio id="bgm" src="soundscape.mp3" preload="auto" loop muted></audio>
 
+        <!-- Space station and link -->
+    <div id="navtrax-teaser" aria-label="NavTrax teaser"
+        data-video-id="xRRvSp00JL4">
+        <button class="teaser-text" type="button">Click here for a video demo of the Space Junk Sweep Minigame.</button>
+        <button class="teaser-img" type="button" aria-label="Open NavTrax demo video">
+            <img src="images/nt/space-station.png" alt="NavTrax space station preview">
+        </button>
+    </div>
+
     <!-- Scoreboard -->
     <div id="scoreboard">
         <div id="score-label">Score:</div>
@@ -110,6 +119,21 @@
         </button>
         </div>
     </div>
+    </div>
+    </div>
+
+    <!-- Single demo video modal for NavTrax teaser -->
+    <div id="navDemoModal" class="mission-modal" aria-hidden="true">
+    <div class="mission-panel" role="dialog" aria-label="NavTrax demo video">
+        <div class="mission-header">
+        <h2 class="mission-modal-title">NavTrax — Video Demo</h2>
+        <button class="mission-close" aria-label="Close">×</button>
+        </div>
+        <div class="mission-body">
+        <div class="mission-video-wrap">
+            <iframe class="mission-video" allow="autoplay; fullscreen" allowfullscreen title="NavTrax demo video"></iframe>
+        </div>
+        </div>
     </div>
     </div>
 

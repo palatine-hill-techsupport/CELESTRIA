@@ -151,7 +151,7 @@ iframe {
   box-shadow: 0 6px 20px rgba(0,0,0,.4);
 
   /* animation + interaction */
-  animation: infoPulse 2.2s ease-in-out infinite;
+  animation: infoPulse 4.2s ease-in-out infinite;
   transition: background 120ms ease, transform 120ms ease;
 }
 #infoBtn:hover  { background: rgba(0,169,165,.95); transform: translateY(calc(-50% - 1px)); }
@@ -167,7 +167,66 @@ iframe {
   z-index: -1;
   box-shadow: 0 0 0 0 var(--pulse-color);
   opacity: .55;
-  animation: infoRing 2.2s ease-out infinite;
+  animation: infoRing 4.2s ease-out infinite;
+}
+
+/* ==========================================================================
+   Switch button 
+   ========================================================================== */
+
+#switchBtn {
+  /* placement */
+  position: fixed;
+  right: 10%; 
+  top: 65%; 
+  transform: translateY(-50%);
+  z-index: 11000;
+  cursor: pointer;
+  --pulse-color: var(--nasa-red);
+
+  /* smaller circular geometry */
+  width: 8rem;
+  height: 8rem;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+
+  /* type system */
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 0;
+
+  /* surface and shadow */
+  background: rgba(253, 61, 33, 0.92);
+  color: var(--nasa-white);
+  border: 0;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 4px 12px rgba(0,0,0,.35);
+
+  /* animation + interaction */
+  animation: infoPulse 4.2s ease-in-out infinite;
+  transition: background 120ms ease, transform 120ms ease;
+}
+#switchBtn:hover  { background: rgba(223, 108, 93, 0.95); transform: translateY(calc(-50% - 1px)); }
+#switchBtn:active { transform: translateY(-50%); }
+#switchBtn:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--ring); }
+
+#switchBtn::before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  z-index: -1;
+  box-shadow: 0 0 0 0 rgba(253,61,33,0.6);
+  opacity: 0.25;
+  animation: switchRing 3s ease-out infinite;
+  animation: infoRing 4.2s ease-out infinite;
+}
+
+@keyframes switchRing {
+  0%   { box-shadow: 0 0 0 0 rgba(253,61,33,0.4); }
+  100% { box-shadow: 0 0 0 12px rgba(253,61,33,0); }
 }
 
 /* ==========================================================================
@@ -698,13 +757,87 @@ iframe {
   }
 }
 
-/* Mission guide overlay */
-#mission-guide {
+/* ==========================================================================
+   NavTrax teaser (Space Station)
+   ========================================================================== */
+
+#navtrax-teaser{
   position: absolute;
-  top: 6%;
+  top: 8%;
   right: 3%;
   z-index: 9000;
-  background-color: rgba(11, 16, 30, 0.8);
+  width: 280px;
+  display: grid;
+  gap: 8px;
+  padding: 12px 16px;
+  border-radius: 6px;
+  font-family: var(--font-display);
+  color: #fff;
+}
+
+#navtrax-teaser .teaser-img{
+  display: block;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 120ms ease, border-color 120ms ease;
+}
+#navtrax-teaser .teaser-img:hover{
+  transform: translateY(-1px);
+  border-color: color-mix(in srgb, var(--cosmic-teal) 45%, transparent);
+}
+#navtrax-teaser .teaser-img img{
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-top: 24px;
+}
+
+#navtrax-teaser .teaser-text{
+  display: block;
+  padding: 8px 10px;
+  margin-top: 16px;
+  border-radius: 8px;
+  border: 1px solid color-mix(in srgb, var(--starlight) 18%, transparent);
+  background: rgba(255,255,255,0.06);
+  color: #fff;
+  text-align: center;
+  font-family: var(--font-heading);
+  font-size: 14px;
+  cursor: pointer;
+  transition: transform 120ms ease, background 120ms ease, border-color 120ms ease;
+}
+#navtrax-teaser .teaser-text:hover{
+  transform: translateY(-1px);
+  background: rgba(255,255,255,0.08);
+  border-color: color-mix(in srgb, var(--cosmic-teal) 45%, transparent);
+}
+
+/* Smaller on mobile */
+@media (max-width: 768px){
+  #navtrax-teaser{
+    width: 125px;
+    padding: 8px 12px;
+    margin-top: 100%;
+    margin-right: 50%;
+  }
+  #navtrax-teaser .teaser-text{ font-size: 10px; }
+}
+
+/* ==========================================================================
+   Mission guide
+   ========================================================================== */
+
+#mission-guide{
+  position: absolute;
+  top: 8%;
+  right: 3%;
+  z-index: 9000;
+  background-color: rgba(11,16,30,0.8);
   padding: 12px 16px;
   border-radius: 6px;
   width: 280px;
@@ -712,33 +845,84 @@ iframe {
   color: #fff;
 }
 
-.mission-title {
-  font-size: 1.6rem;
-  color: #FFB547;
-  font-weight: bold;
-  margin-bottom: 4px;
+#mission-guide .mission-hint{
+  margin: 0 0 12px 0;
+  font-family: var(--font-heading);
+  font-size: 14px;
+  color: var(--starlight, #BFC7D5);
 }
 
-.mission-desc {
-  font-size: 1.0rem;
-  margin-bottom: 8px;
+.mission-toggle {
+  text-align: center;
+  padding: 8px;
+  margin-top: 8px;
+  background: #222;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.mission-toggle:hover {
+  background: #444;
+}
+
+.missions-list{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.mission-card{
+  background: rgba(255,255,255,0.06);
+  border: 1px solid color-mix(in srgb, var(--starlight, #BFC7D5) 18%, transparent);
+  border-radius: 10px;
+  padding: 10px;
+  transition: transform 120ms ease, border-color 120ms ease, background 120ms ease;
+  cursor: pointer;
+}
+
+.mission-card:hover{
+  transform: translateY(-1px);
+  border-color: color-mix(in srgb, var(--cosmic-teal, #3CCFCF) 45%, transparent);
+  background: rgba(255,255,255,0.08);
+}
+
+.mission-card:focus-within{
+  outline: none;
+  box-shadow: 0 0 0 3px var(--ring, rgba(60,207,207,.35));
+}
+
+.mission-card .mission-title{
+  font-size: 1.2rem;
+  color: #FFB547;
+  font-weight: bold;
+  margin: 0 0 4px 0;
+}
+
+.mission-card .mission-title[role="button"]{
+  outline: none;
+}
+
+.mission-desc{
+  font-size: 0.95rem;
+  margin: 0 0 8px 0;
   color: #ccc;
 }
 
-.mission-tasks {
+.mission-tasks{
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.mission-tasks li {
+.mission-tasks li{
   position: relative;
   padding-left: 20px;
   margin-bottom: 6px;
-  font-size: 1.0rem;
+  font-size: 0.95rem;
 }
 
-.mission-tasks li::before {
+.mission-tasks li::before{
   content: "•";
   position: absolute;
   left: 0;
@@ -746,17 +930,102 @@ iframe {
 }
 
 /* Smaller on mobile */
-@media (max-width: 768px) {
-  #mission-guide {
+@media (max-width: 768px){
+  #mission-guide{
     width: 200px;
     padding: 8px 12px;
   }
-  .mission-title {
-    font-size: 1.1rem;
+  #mission-guide .mission-hint {
+    font-size: 0.8rem;
+  }
+  .mission-toggle {
+    font-size: 10px;
+    padding: 8px;
+  }
+  .mission-card .mission-title{
+    font-size: 1.05rem;
   }
   .mission-desc,
-  .mission-tasks li {
+  .mission-tasks li{
     font-size: 0.8rem;
+  }
+}
+
+/* ==========================================================================
+   Mission video modals (match protoModal look & feel)
+   ========================================================================== */
+
+.mission-modal{
+  position: fixed;
+  inset: 0;
+  z-index: 12500;
+  display: none;
+  background: rgba(0,0,0,0.8);
+}
+
+.mission-panel{
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(1200px, 92vw);
+  max-height: min(90vh, 820px);
+  display: grid;
+  grid-template-rows: auto 1fr;
+  overflow: hidden;
+  background: rgba(11,16,30,0.98);
+  color: #fff;
+  border: 1px solid color-mix(in srgb, var(--starlight, #BFC7D5) 25%, transparent);
+  border-radius: 16px;
+  box-shadow: 0 30px 60px rgba(0,0,0,.55);
+}
+
+.mission-header{
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; padding: 14px 16px;
+  background: rgba(11,16,30,.90);
+  border-bottom: 1px solid color-mix(in srgb, var(--starlight, #BFC7D5) 18%, transparent);
+}
+
+.mission-modal-title{
+  margin: 0;
+  font-family: var(--font-display);
+  letter-spacing: var(--track-wide, 0.04em);
+  font-size: 20px;
+}
+
+.mission-close{
+  background: transparent; color: #fff;
+  border: 0; font-size: 24px; line-height: 1;
+  padding: 2px 8px; border-radius: 8px; cursor: pointer;
+  transition: background 120ms ease;
+}
+.mission-close:hover{ background: rgba(255,255,255,.08); }
+.mission-close:focus-visible{ outline: none; box-shadow: 0 0 0 3px var(--ring, rgba(60,207,207,.35)); }
+
+.mission-body{
+  padding: 12px; min-height: 0; display: grid;
+}
+
+.mission-video-wrap{
+  width: 100%; height: 100%;
+  aspect-ratio: 16 / 9;
+  display: grid; align-items: center; justify-items: center;
+}
+
+.mission-video{
+  width: 100%; height: 100%;
+  border: 0; border-radius: 12px;
+  background: #0b101e;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.45);
+}
+
+/* Mobile-friendly panel sizing */
+@media (max-width: 600px){
+  .mission-panel{
+    top: calc(env(safe-area-inset-top, 0px) + 12px);
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 12px);
+    left: 50%; transform: translate(-50%, 0);
+    height: auto; max-height: none; width: min(96vw, 720px);
   }
 }
 
@@ -1045,8 +1314,26 @@ iframe {
     inset: -6px;
   }
 
-  #infoBtn:hover  { transform: translateY(-1px); }
-  #infoBtn:active { transform: translateY(0); }
+  #switchBtn:hover  { transform: translateY(-1px); }
+  #switchBtn:active { transform: translateY(0); }
+
+    #switchBtn{
+    top: auto;
+    bottom: 20%;
+    right: 8%;
+    transform: none;
+    width: 5rem;
+    height: 5rem;
+    font-size: clamp(8px, 4.5vw, 10px);
+    letter-spacing: 0.02em;
+  }
+
+  #switchBtn::before{
+    inset: -6px;
+  }
+
+  #switchBtn:hover  { transform: translateY(-1px); }
+  #switchBtn:active { transform: translateY(0); }
 
   #protoModal .modal-panel{
     top: calc(env(safe-area-inset-top, 0px) + 12px);
