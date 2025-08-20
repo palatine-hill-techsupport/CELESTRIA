@@ -474,7 +474,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // --- NavTrax teaser -> single video modal (ID -> embed URL) ---------------
   const teaser = document.getElementById('navtrax-teaser');
   if (teaser) {
-    const videoId = teaser.dataset.videoId || 'xRRvSp00JL4'; // fallback ID
+    const videoId = teaser.dataset.videoId || 'x7sw8R_X-zo';
     const demoUrl = embedFromId(videoId);
     const openDemo = () => openMissionModal('navDemoModal', demoUrl);
 
